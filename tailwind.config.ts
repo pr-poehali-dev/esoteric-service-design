@@ -63,12 +63,11 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				mystic: {
-					purple: '#8B5FBF',
-					violet: '#9370DB',
+					purple: '#2D1B4E',
+					violet: '#8B5A96',
 					gold: '#D4AF37',
-					deep: '#F8F9FA',
-					lavender: '#E6E6FA',
-					sage: '#9CAF88'
+					deep: '#1A0B2E',
+					lavender: '#8B5A96'
 				}
 			},
 			borderRadius: {
