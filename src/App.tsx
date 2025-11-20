@@ -10,6 +10,7 @@ import Services from "./pages/Services";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
+import Favorites from "./pages/Favorites";
 import Chat from "./pages/Chat";
 import ServiceDetail from "./pages/ServiceDetail";
 import AuthorProfile from "./pages/AuthorProfile";
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/favorites" element={<Favorites />} />
           <Route path="/service/:id" element={<ServiceDetail />} />
           <Route path="/author/:id" element={<AuthorProfile />} />
           <Route path="/chat" element={<Chat />} />
