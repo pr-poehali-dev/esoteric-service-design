@@ -5,10 +5,15 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
 
 export default function ServiceDetail() {
   const [mainImage, setMainImage] = useState('/img/ce1b75d6-d236-4e34-a342-4391f5c746f0.jpg');
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewText, setReviewText] = useState('');
+  const [showReviewDialog, setShowReviewDialog] = useState(false);
   
   const service = {
     id: 1,
@@ -87,6 +92,60 @@ export default function ServiceDetail() {
       text: 'Это была моя первая консультация у астролога, и я очень довольна! Мария всё объяснила простым языком, без сложных терминов. После консультации появилось ясное понимание своих сильных сторон и направления развития.'
     }
   ];
+
+  const similarServices = [
+    {
+      id: 2,
+      name: 'Прогноз совместимости партнеров',
+      description: 'Синастрия - астрологический анализ совместимости двух людей',
+      image: '/img/ce1b75d6-d236-4e34-a342-4391f5c746f0.jpg',
+      author: {
+        name: 'Мария Звездная',
+        avatar: '/img/ce1b75d6-d236-4e34-a342-4391f5c746f0.jpg'
+      },
+      rating: 4.9,
+      reviews: 98,
+      price: '2200₽',
+      subscription: 'Стандарт'
+    },
+    {
+      id: 3,
+      name: 'Расклад Таро "Кельтский крест"',
+      description: 'Глубокий анализ вашей жизненной ситуации через древнюю систему Таро',
+      image: '/img/bfba9552-d826-4988-b161-355884e82a28.jpg',
+      author: {
+        name: 'Анна Волкова',
+        avatar: '/img/bfba9552-d826-4988-b161-355884e82a28.jpg'
+      },
+      rating: 4.9,
+      reviews: 89,
+      price: '1500₽',
+      subscription: 'Базовая'
+    },
+    {
+      id: 4,
+      name: 'Гадание на рунах "Один"',
+      description: 'Быстрый ответ на конкретный вопрос через мудрость северных рун',
+      image: '/img/ce36f202-a4c1-46a2-9733-f447707ec162.jpg',
+      author: {
+        name: 'Виктор Рунов',
+        avatar: '/img/ce36f202-a4c1-46a2-9733-f447707ec162.jpg'
+      },
+      rating: 5.0,
+      reviews: 67,
+      price: '1200₽',
+      subscription: 'Базовая'
+    }
+  ];
+
+  const handleSubmitReview = () => {
+    if (reviewRating > 0 && reviewText.trim()) {
+      console.log('Отправка отзыва:', { rating: reviewRating, text: reviewText });
+      setReviewRating(0);
+      setReviewText('');
+      setShowReviewDialog(false);
+    }
+  };
 
   const getSubscriptionColor = (subscription: string) => {
     switch (subscription) {
@@ -283,16 +342,72 @@ export default function ServiceDetail() {
 
         <div>
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Отзывы клиентов
-            </h2>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center">
-                <Icon name="Star" className="text-accent fill-accent" size={24} />
-                <span className="text-2xl font-bold text-accent ml-2">{service.rating}</span>
+            <div>
+              <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
+                Отзывы клиентов
+              </h2>
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center">
+                  <Icon name="Star" className="text-accent fill-accent" size={20} />
+                  <span className="text-xl font-bold text-accent ml-2">{service.rating}</span>
+                </div>
+                <span className="text-muted-foreground">на основе {service.reviews} отзывов</span>
               </div>
-              <span className="text-muted-foreground">на основе {service.reviews} отзывов</span>
             </div>
+            <Dialog open={showReviewDialog} onOpenChange={setShowReviewDialog}>
+              <DialogTrigger asChild>
+                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                  <Icon name="Plus" size={18} className="mr-2" />
+                  Оставить отзыв
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-lg">
+                <DialogHeader>
+                  <DialogTitle>Написать отзыв</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Ваша оценка</label>
+                    <div className="flex space-x-2">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          onClick={() => setReviewRating(star)}
+                          className="transition-transform hover:scale-110"
+                        >
+                          <Icon
+                            name="Star"
+                            size={32}
+                            className={`${
+                              star <= reviewRating
+                                ? 'text-accent fill-accent'
+                                : 'text-muted-foreground'
+                            }`}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Ваш отзыв</label>
+                    <Textarea
+                      placeholder="Расскажите о вашем опыте использования услуги..."
+                      value={reviewText}
+                      onChange={(e) => setReviewText(e.target.value)}
+                      rows={6}
+                      className="resize-none"
+                    />
+                  </div>
+                  <Button
+                    onClick={handleSubmitReview}
+                    disabled={reviewRating === 0 || !reviewText.trim()}
+                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                  >
+                    Отправить отзыв
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -325,6 +440,77 @@ export default function ServiceDetail() {
                   </p>
                 </CardContent>
               </Card>
+            ))}
+          </div>
+        </div>
+
+        <Separator className="my-12" />
+
+        <div>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Похожие услуги
+            </h2>
+            <Link to="/services">
+              <Button variant="outline">
+                Все услуги
+                <Icon name="ArrowRight" size={16} className="ml-2" />
+              </Button>
+            </Link>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {similarServices.map((similarService) => (
+              <Link key={similarService.id} to={`/service/${similarService.id}`}>
+                <Card className="group overflow-hidden bg-card/50 border-border hover:border-accent/50 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full">
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={similarService.image}
+                      alt={similarService.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+                    <Badge className={`absolute top-3 right-3 ${getSubscriptionColor(similarService.subscription)}`}>
+                      {similarService.subscription}
+                    </Badge>
+                  </div>
+
+                  <CardHeader className="pb-3">
+                    <h3 className="text-lg font-bold mb-2 line-clamp-2" style={{ fontFamily: 'Playfair Display, serif' }}>
+                      {similarService.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground line-clamp-2">
+                      {similarService.description}
+                    </p>
+                  </CardHeader>
+
+                  <CardContent className="pb-3 flex-1 flex flex-col justify-between">
+                    <div className="flex items-center space-x-2 mb-3">
+                      <Avatar className="w-8 h-8 border border-accent/30">
+                        <AvatarImage src={similarService.author.avatar} alt={similarService.author.name} />
+                        <AvatarFallback className="bg-accent/10 text-accent text-xs">
+                          {similarService.author.name.split(' ').map(n => n[0]).join('')}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-foreground truncate">{similarService.author.name}</p>
+                        <div className="flex items-center">
+                          <Icon name="Star" className="text-accent fill-accent" size={12} />
+                          <span className="text-xs font-bold text-accent ml-1">{similarService.rating}</span>
+                          <span className="text-xs text-muted-foreground ml-2">({similarService.reviews})</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-3 border-t border-border">
+                      <p className="text-xl font-bold text-accent">{similarService.price}</p>
+                      <Button size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                        Смотреть
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
