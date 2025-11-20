@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -6,7 +6,15 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
+
+interface Attachment {
+  type: 'image' | 'file';
+  url: string;
+  name: string;
+  size?: string;
+}
 
 interface Message {
   id: number;
@@ -15,6 +23,7 @@ interface Message {
   timestamp: string;
   isRead: boolean;
   isNew: boolean;
+  attachments?: Attachment[];
 }
 
 interface Chat {
@@ -33,6 +42,9 @@ interface Chat {
 export default function Chat() {
   const [selectedChatId, setSelectedChatId] = useState(1);
   const [messageText, setMessageText] = useState('');
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const chats: Chat[] = [
     {
@@ -122,6 +134,30 @@ export default function Chat() {
         timestamp: '14:23',
         isRead: false,
         isNew: true
+      },
+      {
+        id: 7,
+        text: 'Вот моя натальная карта из другого источника для сравнения',
+        sender: 'client',
+        timestamp: '14:35',
+        isRead: true,
+        isNew: false,
+        attachments: [
+          {
+            type: 'image',
+            url: '/img/ce1b75d6-d236-4e34-a342-4391f5c746f0.jpg',
+            name: 'natal-chart.jpg',
+            size: '1.2 MB'
+          }
+        ]
+      },
+      {
+        id: 8,
+        text: 'Отлично! Это поможет мне в анализе',
+        sender: 'author',
+        timestamp: '14:40',
+        isRead: true,
+        isNew: false
       }
     ],
     2: [
@@ -157,10 +193,46 @@ export default function Chat() {
   const selectedChat = chats.find(chat => chat.id === selectedChatId);
   const currentMessages = messages[selectedChatId] || [];
 
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+
+    const newAttachments: Attachment[] = [];
+    
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const url = e.target?.result as string;
+        const isImage = file.type.startsWith('image/');
+        
+        newAttachments.push({
+          type: isImage ? 'image' : 'file',
+          url: url,
+          name: file.name,
+          size: (file.size / 1024 / 1024).toFixed(2) + ' MB'
+        });
+
+        if (newAttachments.length === files.length) {
+          setAttachments(prev => [...prev, ...newAttachments]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleRemoveAttachment = (index: number) => {
+    setAttachments(prev => prev.filter((_, i) => i !== index));
+  };
+
   const handleSendMessage = () => {
-    if (messageText.trim()) {
-      console.log('Отправка сообщения:', messageText);
+    if (messageText.trim() || attachments.length > 0) {
+      console.log('Отправка сообщения:', messageText, 'Файлы:', attachments);
       setMessageText('');
+      setAttachments([]);
     }
   };
 
@@ -351,7 +423,46 @@ export default function Chat() {
                                 : 'bg-card/50 border-border'
                             }`}
                           >
-                            <p className="text-sm">{message.text}</p>
+                            {message.text && <p className="text-sm mb-2">{message.text}</p>}
+                            
+                            {message.attachments && message.attachments.length > 0 && (
+                              <div className="space-y-2 mt-2">
+                                {message.attachments.map((attachment, index) => (
+                                  <div key={index}>
+                                    {attachment.type === 'image' ? (
+                                      <div 
+                                        className="relative rounded-lg overflow-hidden cursor-pointer group max-w-xs"
+                                        onClick={() => setPreviewImage(attachment.url)}
+                                      >
+                                        <img 
+                                          src={attachment.url} 
+                                          alt={attachment.name}
+                                          className="w-full h-auto rounded-lg"
+                                        />
+                                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                          <Icon name="ZoomIn" className="text-white" size={32} />
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <div className="flex items-center space-x-3 p-3 bg-background/50 rounded-lg border border-border">
+                                        <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                                          <Icon name="FileText" className="text-accent" size={20} />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                          <p className="text-sm font-medium truncate">{attachment.name}</p>
+                                          {attachment.size && (
+                                            <p className="text-xs text-muted-foreground">{attachment.size}</p>
+                                          )}
+                                        </div>
+                                        <Button variant="ghost" size="icon">
+                                          <Icon name="Download" size={16} />
+                                        </Button>
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </Card>
 
                           <div className={`flex items-center space-x-2 mt-1 text-xs text-muted-foreground ${message.sender === 'client' ? 'justify-end' : ''}`}>
@@ -380,8 +491,58 @@ export default function Chat() {
               </ScrollArea>
 
               <div className="p-4 border-t border-border bg-card/30">
+                {attachments.length > 0 && (
+                  <div className="max-w-4xl mx-auto mb-3">
+                    <div className="flex flex-wrap gap-2">
+                      {attachments.map((attachment, index) => (
+                        <div key={index} className="relative group">
+                          {attachment.type === 'image' ? (
+                            <div className="relative w-20 h-20 rounded-lg overflow-hidden border-2 border-accent/30">
+                              <img 
+                                src={attachment.url} 
+                                alt={attachment.name}
+                                className="w-full h-full object-cover"
+                              />
+                              <button
+                                onClick={() => handleRemoveAttachment(index)}
+                                className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                              >
+                                <Icon name="X" size={14} />
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="flex items-center space-x-2 p-2 bg-card border border-border rounded-lg">
+                              <Icon name="FileText" className="text-accent" size={16} />
+                              <span className="text-xs font-medium max-w-[100px] truncate">{attachment.name}</span>
+                              <button
+                                onClick={() => handleRemoveAttachment(index)}
+                                className="w-5 h-5 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center"
+                              >
+                                <Icon name="X" size={12} />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
                 <div className="flex items-end space-x-2 max-w-4xl mx-auto">
-                  <Button variant="ghost" size="icon" className="flex-shrink-0">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    accept="image/*,.pdf,.doc,.docx,.txt"
+                    onChange={handleFileSelect}
+                    className="hidden"
+                  />
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="flex-shrink-0"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
                     <Icon name="Paperclip" size={20} />
                   </Button>
                   <div className="flex-1 relative">
@@ -403,7 +564,7 @@ export default function Chat() {
                   <Button 
                     onClick={handleSendMessage}
                     className="bg-accent hover:bg-accent/90 text-accent-foreground flex-shrink-0"
-                    disabled={!messageText.trim()}
+                    disabled={!messageText.trim() && attachments.length === 0}
                   >
                     <Icon name="Send" size={20} />
                   </Button>
@@ -425,6 +586,23 @@ export default function Chat() {
           )}
         </div>
       </div>
+
+      <Dialog open={!!previewImage} onOpenChange={() => setPreviewImage(null)}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Просмотр изображения</DialogTitle>
+          </DialogHeader>
+          {previewImage && (
+            <div className="relative">
+              <img 
+                src={previewImage} 
+                alt="Preview"
+                className="w-full h-auto rounded-lg"
+              />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
