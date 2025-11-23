@@ -11,6 +11,7 @@ import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Favorites from "./pages/Favorites";
+import Authors from "./pages/Authors";
 import Chat from "./pages/Chat";
 import ServiceDetail from "./pages/ServiceDetail";
 import AuthorProfile from "./pages/AuthorProfile";
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/authors" element={<Authors />} />
           <Route path="/service/:id" element={<ServiceDetail />} />
           <Route path="/author/:id" element={<AuthorProfile />} />
           <Route path="/chat" element={<Chat />} />
