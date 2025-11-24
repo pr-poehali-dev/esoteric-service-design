@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -7,6 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
 
 export default function Profile() {
+  const navigate = useNavigate();
   const [user] = useState({
     fullName: 'Анна Мария Волкова',
     avatar: '/img/bfba9552-d826-4988-b161-355884e82a28.jpg',
@@ -155,7 +157,10 @@ export default function Profile() {
                   </div>
                 </div>
 
-                <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
+                <Button 
+                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                  onClick={() => navigate('/profile/edit')}
+                >
                   <Icon name="Settings" size={16} className="mr-2" />
                   Редактировать профиль
                 </Button>
