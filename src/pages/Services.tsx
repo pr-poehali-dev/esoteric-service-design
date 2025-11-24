@@ -8,6 +8,8 @@ import Icon from '@/components/ui/icon';
 
 export default function Services() {
   const [filter, setFilter] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const services = [
     {
@@ -112,6 +114,21 @@ export default function Services() {
     ? services 
     : services.filter(s => s.category === filter);
 
+  const totalPages = Math.ceil(filteredServices.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentServices = filteredServices.slice(startIndex, endIndex);
+
+  const handleFilterChange = (newFilter: string) => {
+    setFilter(newFilter);
+    setCurrentPage(1);
+  };
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const getSubscriptionColor = (subscription: string) => {
     switch (subscription) {
       case 'Базовая':
@@ -170,23 +187,23 @@ export default function Services() {
       <div className="container mx-auto px-4 py-12">
         <Tabs defaultValue="all" className="mb-8">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-4 bg-card/50">
-            <TabsTrigger value="all" onClick={() => setFilter('all')}>
+            <TabsTrigger value="all" onClick={() => handleFilterChange('all')}>
               Все
             </TabsTrigger>
-            <TabsTrigger value="tarot" onClick={() => setFilter('tarot')}>
+            <TabsTrigger value="tarot" onClick={() => handleFilterChange('tarot')}>
               Таро
             </TabsTrigger>
-            <TabsTrigger value="astrology" onClick={() => setFilter('astrology')}>
+            <TabsTrigger value="astrology" onClick={() => handleFilterChange('astrology')}>
               Астрология
             </TabsTrigger>
-            <TabsTrigger value="runes" onClick={() => setFilter('runes')}>
+            <TabsTrigger value="runes" onClick={() => handleFilterChange('runes')}>
               Руны
             </TabsTrigger>
           </TabsList>
         </Tabs>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredServices.map((service) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {currentServices.map((service) => (
             <Card 
               key={service.id} 
               className="group overflow-hidden bg-card/50 border-border hover:border-accent/50 transition-all duration-300 hover:scale-[1.02] flex flex-col"
@@ -273,6 +290,72 @@ export default function Services() {
             <Icon name="Search" className="text-muted-foreground mx-auto mb-4" size={48} />
             <h3 className="text-2xl font-bold mb-2">Услуги не найдены</h3>
             <p className="text-muted-foreground">Попробуйте выбрать другую категорию</p>
+          </div>
+        )}
+
+        {totalPages > 1 && (
+          <div className="flex flex-col items-center space-y-4 mt-12">
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => goToPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="disabled:opacity-50"
+              >
+                <Icon name="ChevronLeft" size={16} />
+              </Button>
+
+              <div className="flex items-center space-x-1">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                  if (
+                    page === 1 ||
+                    page === totalPages ||
+                    (page >= currentPage - 1 && page <= currentPage + 1)
+                  ) {
+                    return (
+                      <Button
+                        key={page}
+                        variant={currentPage === page ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={() => goToPage(page)}
+                        className={
+                          currentPage === page
+                            ? 'bg-accent hover:bg-accent/90 text-accent-foreground'
+                            : ''
+                        }
+                      >
+                        {page}
+                      </Button>
+                    );
+                  } else if (
+                    page === currentPage - 2 ||
+                    page === currentPage + 2
+                  ) {
+                    return (
+                      <span key={page} className="px-2 text-muted-foreground">
+                        ...
+                      </span>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => goToPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="disabled:opacity-50"
+              >
+                <Icon name="ChevronRight" size={16} />
+              </Button>
+            </div>
+
+            <p className="text-sm text-muted-foreground">
+              Страница {currentPage} из {totalPages} · Показано {startIndex + 1}-{Math.min(endIndex, filteredServices.length)} из {filteredServices.length} услуг
+            </p>
           </div>
         )}
       </div>
