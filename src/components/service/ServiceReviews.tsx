@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -22,6 +23,7 @@ interface ServiceReviewsProps {
 }
 
 export default function ServiceReviews({ reviews, serviceRating, serviceReviewsCount }: ServiceReviewsProps) {
+  const navigate = useNavigate();
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
   const [showReviewDialog, setShowReviewDialog] = useState(false);
@@ -50,13 +52,22 @@ export default function ServiceReviews({ reviews, serviceRating, serviceReviewsC
             <span className="text-muted-foreground">на основе {serviceReviewsCount} отзывов</span>
           </div>
         </div>
-        <Dialog open={showReviewDialog} onOpenChange={setShowReviewDialog}>
-          <DialogTrigger asChild>
-            <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">
-              <Icon name="Plus" size={18} className="mr-2" />
-              Оставить отзыв
-            </Button>
-          </DialogTrigger>
+        <div className="flex gap-3">
+          <Button 
+            variant="outline" 
+            onClick={() => navigate('/reviews')}
+            className="border-accent text-accent hover:bg-accent/10"
+          >
+            Все отзывы
+            <Icon name="ArrowRight" size={18} className="ml-2" />
+          </Button>
+          <Dialog open={showReviewDialog} onOpenChange={setShowReviewDialog}>
+            <DialogTrigger asChild>
+              <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                <Icon name="Plus" size={18} className="mr-2" />
+                Оставить отзыв
+              </Button>
+            </DialogTrigger>
           <DialogContent className="max-w-lg">
             <DialogHeader>
               <DialogTitle>Написать отзыв</DialogTitle>

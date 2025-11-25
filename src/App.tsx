@@ -17,6 +17,7 @@ import Chat from "./pages/Chat";
 import ServiceDetail from "./pages/ServiceDetail";
 import AuthorProfile from "./pages/AuthorProfile";
 import Auth from "./pages/Auth";
+import AllReviews from "./pages/AllReviews";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/author/:id" element={<AuthorProfile />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/reviews" element={<AllReviews />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
