@@ -68,7 +68,7 @@ export default function ServiceReviews({ reviews, serviceRating, serviceReviewsC
                 Оставить отзыв
               </Button>
             </DialogTrigger>
-          <DialogContent className="max-w-lg">
+            <DialogContent className="max-w-lg">
             <DialogHeader>
               <DialogTitle>Написать отзыв</DialogTitle>
             </DialogHeader>
@@ -114,7 +114,8 @@ export default function ServiceReviews({ reviews, serviceRating, serviceReviewsC
               </Button>
             </div>
           </DialogContent>
-        </Dialog>
+          </Dialog>
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
