@@ -6,6 +6,7 @@ import Icon from '@/components/ui/icon';
 import ServiceGallery from '@/components/service/ServiceGallery';
 import ServiceInfo from '@/components/service/ServiceInfo';
 import ServiceReviews from '@/components/service/ServiceReviews';
+import ServiceOrders from '@/components/service/ServiceOrders';
 import SimilarServices from '@/components/service/SimilarServices';
 
 export default function ServiceDetail() {
@@ -86,6 +87,53 @@ export default function ServiceDetail() {
       rating: 5,
       date: '28 декабря 2024',
       text: 'Это была моя первая консультация у астролога, и я очень довольна! Мария всё объяснила простым языком, без сложных терминов. После консультации появилось ясное понимание своих сильных сторон и направления развития.'
+    }
+  ];
+
+  const userOrders = [
+    {
+      id: 1,
+      date: '20 января 2025',
+      status: 'completed' as const,
+      completedDate: '22 января 2025',
+      files: [
+        {
+          id: 1,
+          name: 'Натальная_карта_полный_разбор.pdf',
+          size: '2.4 МБ',
+          url: '/files/natal_chart_1.pdf'
+        },
+        {
+          id: 2,
+          name: 'Рекомендации_по_транзитам.pdf',
+          size: '1.1 МБ',
+          url: '/files/transits_1.pdf'
+        }
+      ]
+    },
+    {
+      id: 2,
+      date: '10 января 2025',
+      status: 'completed' as const,
+      completedDate: '11 января 2025',
+      files: [
+        {
+          id: 3,
+          name: 'Консультация_запись.pdf',
+          size: '890 КБ',
+          url: '/files/consultation_2.pdf'
+        }
+      ]
+    },
+    {
+      id: 3,
+      date: '28 января 2025',
+      status: 'in_progress' as const
+    },
+    {
+      id: 4,
+      date: '29 января 2025',
+      status: 'new' as const
     }
   ];
 
@@ -200,6 +248,10 @@ export default function ServiceDetail() {
             </p>
           </div>
         </div>
+
+        <Separator className="my-12" />
+
+        <ServiceOrders orders={userOrders} />
 
         <Separator className="my-12" />
 
