@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Icon from '@/components/ui/icon';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 interface Author {
   id: number;
@@ -233,6 +234,7 @@ export default function Authors() {
                 Избранное
               </Button>
             </Link>
+            <NotificationCenter />
             <Link to="/profile">
               <Button variant="ghost" size="sm">
                 <Icon name="User" size={16} className="mr-2" />

@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 interface Attachment {
   type: 'image' | 'file';
@@ -259,6 +260,7 @@ export default function Chat() {
                 Чаты
               </Button>
             </Link>
+            <NotificationCenter />
             <Link to="/profile">
               <Button variant="ghost" size="sm">
                 <Icon name="User" size={16} className="mr-2" />

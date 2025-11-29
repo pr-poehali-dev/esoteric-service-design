@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 interface FavoriteProduct {
   id: number;
@@ -227,6 +228,7 @@ export default function Favorites() {
                 Избранное
               </Button>
             </Link>
+            <NotificationCenter />
             <Link to="/profile">
               <Button variant="ghost" size="sm">
                 <Icon name="User" size={16} className="mr-2" />

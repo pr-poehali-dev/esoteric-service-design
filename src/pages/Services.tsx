@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 export default function Services() {
   const [filter, setFilter] = useState('all');
@@ -161,6 +162,7 @@ export default function Services() {
               <Icon name="ShoppingBag" size={16} className="mr-2" />
               Услуги
             </Button>
+            <NotificationCenter />
             <Button variant="ghost" size="sm">
               <Icon name="User" size={16} className="mr-2" />
               Профиль

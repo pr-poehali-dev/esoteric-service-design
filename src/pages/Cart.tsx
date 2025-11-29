@@ -6,6 +6,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 interface CartItem {
   id: number;
@@ -159,6 +160,7 @@ export default function Cart() {
                 )}
               </Button>
             </Link>
+            <NotificationCenter />
             <Link to="/profile">
               <Button variant="ghost" size="sm">
                 <Icon name="User" size={16} className="mr-2" />

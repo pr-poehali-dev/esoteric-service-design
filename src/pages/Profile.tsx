@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -72,6 +73,7 @@ export default function Profile() {
               <Icon name="Home" size={16} className="mr-2" />
               Главная
             </Button>
+            <NotificationCenter />
             <Button variant="ghost" size="sm">
               <Icon name="User" size={16} className="mr-2" />
               Профиль

@@ -8,6 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 export default function AuthorProfile() {
   const [reviewRating, setReviewRating] = useState(0);
@@ -158,6 +159,7 @@ export default function AuthorProfile() {
                 Услуги
               </Button>
             </Link>
+            <NotificationCenter />
             <Link to="/profile">
               <Button variant="ghost" size="sm">
                 <Icon name="User" size={16} className="mr-2" />

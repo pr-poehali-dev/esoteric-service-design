@@ -10,6 +10,7 @@ import Icon from '@/components/ui/icon';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 const zodiacSigns = [
   { name: 'Овен', start: [3, 21], end: [4, 19], icon: '♈' },
@@ -96,6 +97,7 @@ export default function EditProfile() {
               <Icon name="Home" size={16} className="mr-2" />
               Главная
             </Button>
+            <NotificationCenter />
             <Button variant="ghost" size="sm" onClick={() => navigate('/profile')}>
               <Icon name="User" size={16} className="mr-2" />
               Профиль

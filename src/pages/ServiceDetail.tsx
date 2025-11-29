@@ -8,6 +8,7 @@ import ServiceInfo from '@/components/service/ServiceInfo';
 import ServiceReviews from '@/components/service/ServiceReviews';
 import ServiceOrders from '@/components/service/ServiceOrders';
 import SimilarServices from '@/components/service/SimilarServices';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 export default function ServiceDetail() {
   const [mainImage, setMainImage] = useState('/img/ce1b75d6-d236-4e34-a342-4391f5c746f0.jpg');
@@ -205,13 +206,14 @@ export default function ServiceDetail() {
               Мистерия
             </h1>
           </Link>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
             <Link to="/services">
               <Button variant="ghost" size="sm">
                 <Icon name="ArrowLeft" size={16} className="mr-2" />
                 К услугам
               </Button>
             </Link>
+            <NotificationCenter />
             <Link to="/profile">
               <Button variant="ghost" size="sm">
                 <Icon name="User" size={16} className="mr-2" />

@@ -12,6 +12,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 export default function Products() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -273,6 +274,7 @@ export default function Products() {
               <Icon name="ShoppingCart" size={16} className="mr-2" />
               Корзина
             </Button>
+            <NotificationCenter />
             <Link to="/profile">
               <Button variant="ghost" size="sm">
                 <Icon name="User" size={16} className="mr-2" />

@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import Icon from '@/components/ui/icon';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -135,7 +136,7 @@ export default function Index() {
               Мистерия
             </h1>
           </Link>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
             <Link to="/services">
               <Button variant="ghost" size="sm">
                 <Icon name="ShoppingBag" size={16} className="mr-2" />
@@ -150,6 +151,7 @@ export default function Index() {
               <Icon name="Users" size={16} className="mr-2" />
               Авторы
             </Button>
+            <NotificationCenter />
             <Link to="/profile">
               <Button variant="ghost" size="sm">
                 <Icon name="User" size={16} className="mr-2" />

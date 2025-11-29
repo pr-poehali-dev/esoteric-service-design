@@ -15,6 +15,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -209,6 +210,7 @@ export default function ProductDetail() {
               <Icon name="ShoppingCart" size={16} className="mr-2" />
               Корзина
             </Button>
+            <NotificationCenter />
             <Link to="/profile">
               <Button variant="ghost" size="sm">
                 <Icon name="User" size={16} className="mr-2" />
