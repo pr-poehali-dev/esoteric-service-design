@@ -72,6 +72,8 @@ export default function Auth() {
   const [birthDate, setBirthDate] = useState<Date>();
   const [codeSent, setCodeSent] = useState(false);
   const [registerPassword, setRegisterPassword] = useState('');
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
 
   const zodiacSign = getZodiacSign(birthDate);
   const passwordStrength = calculatePasswordStrength(registerPassword);
@@ -159,7 +161,19 @@ export default function Auth() {
                     <Label htmlFor="login-password">Пароль</Label>
                     <div className="relative">
                       <Icon name="Lock" size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                      <Input id="login-password" type="password" placeholder="••••••••" className="pl-10" />
+                      <Input 
+                        id="login-password" 
+                        type={showLoginPassword ? "text" : "password"} 
+                        placeholder="••••••••" 
+                        className="pl-10 pr-10" 
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowLoginPassword(!showLoginPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        <Icon name={showLoginPassword ? "EyeOff" : "Eye"} size={18} />
+                      </button>
                     </div>
                   </div>
 
@@ -323,12 +337,19 @@ export default function Auth() {
                     <Icon name="Lock" size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                     <Input 
                       id="register-password" 
-                      type="password" 
+                      type={showRegisterPassword ? "text" : "password"} 
                       placeholder="Минимум 8 символов" 
-                      className="pl-10"
+                      className="pl-10 pr-10"
                       value={registerPassword}
                       onChange={(e) => setRegisterPassword(e.target.value)}
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowRegisterPassword(!showRegisterPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <Icon name={showRegisterPassword ? "EyeOff" : "Eye"} size={18} />
+                    </button>
                   </div>
                   {registerPassword && (
                     <div className="space-y-2">
