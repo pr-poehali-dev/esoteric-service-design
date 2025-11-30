@@ -51,14 +51,30 @@ const getZodiacSign = (date: Date | undefined) => {
   return null;
 };
 
+const calculatePasswordStrength = (password: string): { strength: number; label: string; color: string } => {
+  let strength = 0;
+  
+  if (password.length >= 8) strength++;
+  if (password.length >= 12) strength++;
+  if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+  if (/\d/.test(password)) strength++;
+  if (/[^a-zA-Z0-9]/.test(password)) strength++;
+  
+  if (strength <= 1) return { strength: 1, label: 'Слабый', color: 'bg-red-500' };
+  if (strength <= 3) return { strength: 2, label: 'Средний', color: 'bg-yellow-500' };
+  return { strength: 3, label: 'Сильный', color: 'bg-green-500' };
+};
+
 export default function Auth() {
   const navigate = useNavigate();
   const [loginMethod, setLoginMethod] = useState<'password' | 'code'>('password');
   const [avatarPreview, setAvatarPreview] = useState<string>('');
   const [birthDate, setBirthDate] = useState<Date>();
   const [codeSent, setCodeSent] = useState(false);
+  const [registerPassword, setRegisterPassword] = useState('');
 
   const zodiacSign = getZodiacSign(birthDate);
+  const passwordStrength = calculatePasswordStrength(registerPassword);
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -305,8 +321,43 @@ export default function Auth() {
                   <Label htmlFor="register-password">Пароль</Label>
                   <div className="relative">
                     <Icon name="Lock" size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    <Input id="register-password" type="password" placeholder="Минимум 8 символов" className="pl-10" />
+                    <Input 
+                      id="register-password" 
+                      type="password" 
+                      placeholder="Минимум 8 символов" 
+                      className="pl-10"
+                      value={registerPassword}
+                      onChange={(e) => setRegisterPassword(e.target.value)}
+                    />
                   </div>
+                  {registerPassword && (
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Сложность пароля:</span>
+                        <span className={`font-semibold ${
+                          passwordStrength.strength === 1 ? 'text-red-500' : 
+                          passwordStrength.strength === 2 ? 'text-yellow-500' : 
+                          'text-green-500'
+                        }`}>
+                          {passwordStrength.label}
+                        </span>
+                      </div>
+                      <div className="flex gap-1">
+                        <div className={`h-1.5 flex-1 rounded-full transition-colors ${
+                          passwordStrength.strength >= 1 ? passwordStrength.color : 'bg-muted'
+                        }`} />
+                        <div className={`h-1.5 flex-1 rounded-full transition-colors ${
+                          passwordStrength.strength >= 2 ? passwordStrength.color : 'bg-muted'
+                        }`} />
+                        <div className={`h-1.5 flex-1 rounded-full transition-colors ${
+                          passwordStrength.strength >= 3 ? passwordStrength.color : 'bg-muted'
+                        }`} />
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Используйте буквы, цифры и спецсимволы для надёжного пароля
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-2">
