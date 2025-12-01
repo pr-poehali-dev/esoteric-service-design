@@ -74,6 +74,7 @@ export default function Auth() {
   const [registerPassword, setRegisterPassword] = useState('');
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
+  const [gender, setGender] = useState<'male' | 'female' | ''>('');
 
   const zodiacSign = getZodiacSign(birthDate);
   const passwordStrength = calculatePasswordStrength(registerPassword);
@@ -386,6 +387,36 @@ export default function Auth() {
                   <div className="relative">
                     <Icon name="Phone" size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                     <Input id="phone" type="tel" placeholder="+7 (999) 123-45-67" className="pl-10" />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Пол</Label>
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setGender('male')}
+                      className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
+                        gender === 'male'
+                          ? 'border-accent bg-accent/10 text-accent'
+                          : 'border-border hover:border-accent/50'
+                      }`}
+                    >
+                      <Icon name="User" size={20} />
+                      <span className="font-medium">Мужской</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setGender('female')}
+                      className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
+                        gender === 'female'
+                          ? 'border-accent bg-accent/10 text-accent'
+                          : 'border-border hover:border-accent/50'
+                      }`}
+                    >
+                      <Icon name="User" size={20} />
+                      <span className="font-medium">Женский</span>
+                    </button>
                   </div>
                 </div>
 
