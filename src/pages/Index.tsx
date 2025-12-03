@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import Icon from '@/components/ui/icon';
 import NotificationCenter from '@/components/notifications/NotificationCenter';
+import Footer from '@/components/Footer';
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -500,6 +501,8 @@ export default function Index() {
           </CardContent>
         </Card>
       </div>
+
+      <Footer />
     </div>
   );
 }
