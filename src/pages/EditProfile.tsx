@@ -6,6 +6,16 @@ import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import Icon from '@/components/ui/icon';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -64,6 +74,7 @@ export default function EditProfile() {
   const [birthDate, setBirthDate] = useState<Date | undefined>(new Date(1990, 2, 15));
   const [birthTime, setBirthTime] = useState<string>('14:30');
   const [birthPlace, setBirthPlace] = useState<string>('Москва, Россия');
+  const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
 
   const zodiacSign = getZodiacSign(birthDate);
 
@@ -80,6 +91,11 @@ export default function EditProfile() {
 
   const handleSave = () => {
     navigate('/profile');
+  };
+
+  const handleDeleteAccount = () => {
+    console.log('Аккаунт удалён');
+    navigate('/auth');
   };
 
   return (
@@ -318,12 +334,49 @@ export default function EditProfile() {
               <CardDescription>Необратимые действия с аккаунтом</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button variant="destructive" className="w-full">
+              <Button 
+                variant="destructive" 
+                className="w-full"
+                onClick={() => setShowDeleteDialog(true)}
+              >
                 <Icon name="Trash2" size={18} className="mr-2" />
                 Удалить аккаунт
               </Button>
             </CardContent>
           </Card>
+
+          <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle className="flex items-center gap-2">
+                  <Icon name="AlertTriangle" size={24} className="text-destructive" />
+                  Вы уверены?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  Это действие нельзя отменить. Ваш аккаунт будет удалён навсегда вместе со всеми данными:
+                  <ul className="mt-3 space-y-1 list-disc list-inside text-sm">
+                    <li>Личная информация и профиль</li>
+                    <li>История заказов и услуг</li>
+                    <li>Избранные товары и авторы</li>
+                    <li>Активная подписка (без возврата средств)</li>
+                  </ul>
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>
+                  <Icon name="X" size={16} className="mr-2" />
+                  Отмена
+                </AlertDialogCancel>
+                <AlertDialogAction 
+                  onClick={handleDeleteAccount}
+                  className="bg-destructive hover:bg-destructive/90"
+                >
+                  <Icon name="Trash2" size={16} className="mr-2" />
+                  Да, удалить аккаунт
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
     </div>
