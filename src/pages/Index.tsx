@@ -74,6 +74,51 @@ export default function Index() {
     }
   ];
 
+  const popularCategories = [
+    {
+      id: 1,
+      name: 'Астрология',
+      description: 'Натальные карты, прогнозы, совместимость партнеров',
+      image: '/img/ce1b75d6-d236-4e34-a342-4391f5c746f0.jpg',
+      servicesCount: 45
+    },
+    {
+      id: 2,
+      name: 'Таро',
+      description: 'Расклады на любовь, карьеру и жизненные ситуации',
+      image: '/img/bfba9552-d826-4988-b161-355884e82a28.jpg',
+      servicesCount: 38
+    },
+    {
+      id: 3,
+      name: 'Руны',
+      description: 'Древние символы для предсказания и защиты',
+      image: '/img/ce36f202-a4c1-46a2-9733-f447707ec162.jpg',
+      servicesCount: 22
+    },
+    {
+      id: 4,
+      name: 'Нумерология',
+      description: 'Анализ судьбы через числа и даты рождения',
+      image: '/img/ce1b75d6-d236-4e34-a342-4391f5c746f0.jpg',
+      servicesCount: 31
+    },
+    {
+      id: 5,
+      name: 'Хиромантия',
+      description: 'Чтение судьбы по линиям ладони',
+      image: '/img/bfba9552-d826-4988-b161-355884e82a28.jpg',
+      servicesCount: 18
+    },
+    {
+      id: 6,
+      name: 'Медитация',
+      description: 'Практики осознанности и духовного развития',
+      image: '/img/ce36f202-a4c1-46a2-9733-f447707ec162.jpg',
+      servicesCount: 27
+    }
+  ];
+
   const popularAuthors = [
     {
       id: 1,
@@ -188,6 +233,54 @@ export default function Index() {
       </div>
 
       <div className="container mx-auto px-4 py-12">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Популярные категории
+            </h2>
+            <p className="text-muted-foreground">Выберите направление, которое вас интересует</p>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          {popularCategories.map((category) => (
+            <Card 
+              key={category.id} 
+              className="group overflow-hidden bg-card/50 border-border hover:border-accent/50 transition-all duration-300 hover:scale-[1.02] cursor-pointer"
+            >
+              <div className="relative h-40 overflow-hidden">
+                <img 
+                  src={category.image} 
+                  alt={category.name}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+              </div>
+
+              <CardHeader className="pb-3 relative -mt-10 z-10">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-2xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
+                    {category.name}
+                  </h3>
+                  <Badge variant="outline" className="bg-accent/10 text-accent border-accent/30">
+                    {category.servicesCount}
+                  </Badge>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {category.description}
+                </p>
+              </CardHeader>
+
+              <CardFooter>
+                <Button variant="ghost" className="w-full group-hover:bg-accent/10 group-hover:text-accent transition-colors">
+                  Смотреть услуги
+                  <Icon name="ArrowRight" size={16} className="ml-2" />
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
