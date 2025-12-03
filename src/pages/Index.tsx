@@ -10,6 +10,26 @@ import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isUserLoggedIn] = useState(true);
+  const [userZodiac] = useState('Рыбы');
+
+  const getZodiacIcon = (zodiac: string) => {
+    const icons: { [key: string]: string } = {
+      'Овен': '♈', 'Телец': '♉', 'Близнецы': '♊', 'Рак': '♋',
+      'Лев': '♌', 'Дева': '♍', 'Весы': '♎', 'Скорпион': '♏',
+      'Стрелец': '♐', 'Козерог': '♑', 'Водолей': '♒', 'Рыбы': '♓'
+    };
+    return icons[zodiac] || '✨';
+  };
+
+  const todayHoroscope = {
+    zodiac: userZodiac,
+    date: '3 декабря 2024',
+    text: 'Сегодня звёзды благоволят новым начинаниям. Отличный день для творческих проектов и общения с близкими. Доверьтесь интуиции — она не подведёт.',
+    luck: 85,
+    mood: 'Вдохновлённое',
+    luckyColor: 'Фиолетовый'
+  };
 
   const popularServices = [
     {
@@ -233,6 +253,54 @@ export default function Index() {
       </div>
 
       <div className="container mx-auto px-4 py-12">
+        {isUserLoggedIn && (
+          <Card className="mb-12 bg-gradient-to-br from-mystic-purple/10 via-card/50 to-mystic-violet/10 border-accent/30 overflow-hidden">
+            <div className="absolute top-0 right-0 text-[200px] opacity-5 select-none">
+              {getZodiacIcon(userZodiac)}
+            </div>
+            <CardHeader className="relative z-10">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div className="flex items-center space-x-3">
+                  <div className="text-5xl">{getZodiacIcon(userZodiac)}</div>
+                  <div>
+                    <h3 className="text-2xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
+                      Гороскоп на сегодня
+                    </h3>
+                    <p className="text-muted-foreground">{todayHoroscope.zodiac} • {todayHoroscope.date}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-accent">{todayHoroscope.luck}%</div>
+                    <div className="text-xs text-muted-foreground">Удача</div>
+                  </div>
+                  <div className="h-12 w-px bg-border"></div>
+                  <div className="text-right">
+                    <div className="font-semibold">{todayHoroscope.mood}</div>
+                    <div className="text-xs text-muted-foreground">Настроение</div>
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="relative z-10">
+              <p className="text-foreground text-lg leading-relaxed mb-4">
+                {todayHoroscope.text}
+              </p>
+              <div className="flex items-center gap-6 text-sm">
+                <div className="flex items-center gap-2">
+                  <Icon name="Palette" size={16} className="text-accent" />
+                  <span className="text-muted-foreground">Цвет дня:</span>
+                  <span className="font-medium">{todayHoroscope.luckyColor}</span>
+                </div>
+                <Button variant="ghost" size="sm" className="ml-auto">
+                  Подробный прогноз
+                  <Icon name="ArrowRight" size={14} className="ml-2" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
