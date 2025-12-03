@@ -166,6 +166,15 @@ export default function Profile() {
                   <Icon name="Settings" size={16} className="mr-2" />
                   Редактировать профиль
                 </Button>
+
+                <Button 
+                  variant="outline"
+                  className="w-full border-destructive/30 text-destructive hover:bg-destructive/10"
+                  onClick={() => navigate('/auth')}
+                >
+                  <Icon name="LogOut" size={16} className="mr-2" />
+                  Выйти из аккаунта
+                </Button>
               </CardContent>
             </Card>
 
