@@ -241,14 +241,19 @@ export default function Index() {
             Профессиональные эзотерические консультации от лучших мастеров
           </p>
 
-          <div className="max-w-2xl mx-auto relative">
-            <Icon name="Search" className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
-            <Input 
-              placeholder="Поиск услуг, авторов, товаров..."
-              className="pl-12 pr-4 py-6 text-lg bg-card/50 border-border focus:border-accent"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+          <div className="max-w-2xl mx-auto relative flex gap-2">
+            <div className="relative flex-1">
+              <Icon name="Search" className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
+              <Input 
+                placeholder="Поиск услуг, авторов, товаров..."
+                className="pl-12 pr-4 py-6 text-lg bg-card/50 border-border focus:border-accent"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground px-8">
+              <Icon name="Search" size={20} />
+            </Button>
           </div>
         </div>
       </div>
