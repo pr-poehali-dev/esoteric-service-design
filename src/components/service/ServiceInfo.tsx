@@ -54,6 +54,28 @@ export default function ServiceInfo({ service }: ServiceInfoProps) {
         {service.shortDescription}
       </p>
 
+      <Card className="bg-amber-500/10 border-amber-500/30 mb-6">
+        <CardContent className="p-4">
+          <div className="flex items-start space-x-3">
+            <Icon name="AlertTriangle" className="text-amber-500 mt-0.5" size={20} />
+            <div className="flex-1">
+              <p className="text-sm text-foreground leading-relaxed">
+                У автора сейчас много заказов. Срок выполнения может увеличиться.
+              </p>
+              <Button 
+                variant="link" 
+                size="sm" 
+                className="text-accent hover:text-accent/80 p-0 h-auto mt-1"
+                onClick={() => document.getElementById('similar-services')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Посмотреть похожие услуги
+                <Icon name="ChevronDown" size={16} className="ml-1" />
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       <Card className="bg-card/50 border-accent/30 mb-6">
         <CardContent className="p-6">
           <div className="space-y-4">

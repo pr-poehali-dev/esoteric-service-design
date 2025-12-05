@@ -27,7 +27,7 @@ interface SimilarServicesProps {
 
 export default function SimilarServices({ services, getSubscriptionColor }: SimilarServicesProps) {
   return (
-    <div>
+    <div id="similar-services">
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-3xl font-bold" style={{ fontFamily: 'Playfair Display, serif' }}>
           Похожие услуги
