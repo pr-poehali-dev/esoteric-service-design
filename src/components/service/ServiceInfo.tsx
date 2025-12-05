@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
+import OrderModal from '@/components/service/OrderModal';
 
 interface ServiceInfoProps {
   service: {
@@ -27,6 +29,8 @@ interface ServiceInfoProps {
 }
 
 export default function ServiceInfo({ service }: ServiceInfoProps) {
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+
   return (
     <div>
       <h1 className="text-4xl font-bold mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
@@ -78,7 +82,11 @@ export default function ServiceInfo({ service }: ServiceInfoProps) {
           <p className="text-4xl font-bold text-accent">{service.price}</p>
         </div>
         <div className="flex space-x-3">
-          <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+          <Button 
+            size="lg" 
+            className="bg-accent hover:bg-accent/90 text-accent-foreground"
+            onClick={() => setIsOrderModalOpen(true)}
+          >
             <Icon name="ShoppingCart" size={20} className="mr-2" />
             Заказать
           </Button>
@@ -130,6 +138,12 @@ export default function ServiceInfo({ service }: ServiceInfoProps) {
           </CardContent>
         </Card>
       </div>
+
+      <OrderModal 
+        isOpen={isOrderModalOpen}
+        onClose={() => setIsOrderModalOpen(false)}
+        service={service}
+      />
     </div>
   );
 }
