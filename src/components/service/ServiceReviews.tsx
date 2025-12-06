@@ -30,6 +30,13 @@ export default function ServiceReviews({ reviews, serviceRating, serviceReviewsC
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
   const [showReviewDialog, setShowReviewDialog] = useState(false);
+  const [showOnlyMy, setShowOnlyMy] = useState(false);
+
+  const filteredReviews = showOnlyMy 
+    ? reviews.filter(review => review.isCurrentUser)
+    : reviews;
+
+  const hasUserReviews = reviews.some(review => review.isCurrentUser);
 
   const handleSubmitReview = () => {
     if (reviewRating > 0 && reviewText.trim()) {
@@ -56,6 +63,19 @@ export default function ServiceReviews({ reviews, serviceRating, serviceReviewsC
           </div>
         </div>
         <div className="flex gap-3">
+          {hasUserReviews && (
+            <Button 
+              variant={showOnlyMy ? "default" : "outline"}
+              onClick={() => setShowOnlyMy(!showOnlyMy)}
+              className={showOnlyMy 
+                ? "bg-accent hover:bg-accent/90 text-accent-foreground" 
+                : "border-accent text-accent hover:bg-accent/10"
+              }
+            >
+              <Icon name="User" size={18} className="mr-2" />
+              Только мои
+            </Button>
+          )}
           <Button 
             variant="outline" 
             onClick={() => navigate('/reviews')}
@@ -121,8 +141,14 @@ export default function ServiceReviews({ reviews, serviceRating, serviceReviewsC
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {reviews.map((review) => (
+      {filteredReviews.length === 0 && showOnlyMy ? (
+        <div className="text-center py-12">
+          <Icon name="MessageSquare" size={48} className="mx-auto text-muted-foreground mb-4" />
+          <p className="text-muted-foreground">У вас пока нет отзывов на эту услугу</p>
+        </div>
+      ) : (
+        <div className="grid md:grid-cols-2 gap-6">
+          {filteredReviews.map((review) => (
           <Card 
             key={review.id} 
             className={`bg-card/50 border-border ${
@@ -196,8 +222,9 @@ export default function ServiceReviews({ reviews, serviceRating, serviceReviewsC
               </p>
             </CardContent>
           </Card>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
