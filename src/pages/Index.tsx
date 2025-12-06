@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import Icon from '@/components/ui/icon';
 import NotificationCenter from '@/components/notifications/NotificationCenter';
 import Footer from '@/components/Footer';
+import FadeIn from '@/components/ui/fade-in';
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -230,29 +231,39 @@ export default function Index() {
 
       <div className="relative overflow-hidden py-16 px-4 bg-gradient-to-br from-mystic-purple/20 via-background to-mystic-deep/30">
         <div className="container mx-auto text-center relative z-10">
-          <div className="flex items-center justify-center mb-4">
-            <Icon name="Sparkles" className="text-accent animate-pulse" size={48} />
-          </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-accent via-mystic-violet to-accent bg-clip-text text-transparent" 
-              style={{ fontFamily: 'Playfair Display, serif' }}>
-            Раскройте тайны судьбы
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            Профессиональные эзотерические консультации от лучших мастеров
-          </p>
+          <FadeIn delay={0}>
+            <div className="flex items-center justify-center mb-4">
+              <Icon name="Sparkles" className="text-accent animate-pulse" size={48} />
+            </div>
+          </FadeIn>
+          
+          <FadeIn delay={100}>
+            <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-accent via-mystic-violet to-accent bg-clip-text text-transparent" 
+                style={{ fontFamily: 'Playfair Display, serif' }}>
+              Раскройте тайны судьбы
+            </h1>
+          </FadeIn>
+          
+          <FadeIn delay={200}>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+              Профессиональные эзотерические консультации от лучших мастеров
+            </p>
+          </FadeIn>
 
-          <div className="max-w-2xl mx-auto relative">
-            <Icon name="Search" className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground z-10" size={20} />
-            <Input 
-              placeholder="Поиск услуг, авторов, товаров..."
-              className="pl-12 pr-32 py-6 text-lg bg-card/50 border-border focus:border-accent"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <Button className="absolute right-2 top-1/2 -translate-y-1/2 bg-accent hover:bg-accent/90 text-accent-foreground">
-              Найти
-            </Button>
-          </div>
+          <FadeIn delay={300}>
+            <div className="max-w-2xl mx-auto relative">
+              <Icon name="Search" className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground z-10" size={20} />
+              <Input 
+                placeholder="Поиск услуг, авторов, товаров..."
+                className="pl-12 pr-32 py-6 text-lg bg-card/50 border-border focus:border-accent"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Button className="absolute right-2 top-1/2 -translate-y-1/2 bg-accent hover:bg-accent/90 text-accent-foreground">
+                Найти
+              </Button>
+            </div>
+          </FadeIn>
         </div>
       </div>
 
@@ -315,8 +326,9 @@ export default function Index() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {popularCategories.map((category) => (
-            <Card 
+          {popularCategories.map((category, index) => (
+            <FadeIn key={category.id} delay={index * 100}>
+              <Card 
               key={category.id} 
               className="group overflow-hidden bg-card/50 border-border hover:border-accent/50 transition-all duration-300 hover:scale-[1.02] cursor-pointer"
             >
@@ -350,6 +362,7 @@ export default function Index() {
                 </Button>
               </CardFooter>
             </Card>
+            </FadeIn>
           ))}
         </div>
 
@@ -369,9 +382,9 @@ export default function Index() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {popularServices.map((service) => (
-            <Card 
-              key={service.id} 
+          {popularServices.map((service, index) => (
+            <FadeIn key={service.id} delay={index * 100}>
+              <Card 
               className="group overflow-hidden bg-card/50 border-border hover:border-accent/50 transition-all duration-300 hover:scale-[1.02] flex flex-col"
             >
               <div className="relative h-48 overflow-hidden">
@@ -423,6 +436,7 @@ export default function Index() {
                 </Button>
               </CardFooter>
             </Card>
+            </FadeIn>
           ))}
         </div>
 
@@ -440,9 +454,9 @@ export default function Index() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {popularAuthors.map((author) => (
-            <Card 
-              key={author.id} 
+          {popularAuthors.map((author, index) => (
+            <FadeIn key={author.id} delay={index * 100} direction="up">
+              <Card 
               className="group overflow-hidden bg-card/50 border-border hover:border-accent/50 transition-all duration-300 hover:scale-[1.02]"
             >
               <CardHeader className="text-center pb-3">
@@ -483,6 +497,7 @@ export default function Index() {
                 </Button>
               </CardFooter>
             </Card>
+            </FadeIn>
           ))}
         </div>
       </div>
