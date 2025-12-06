@@ -14,6 +14,9 @@ interface Review {
   rating: number;
   date: string;
   text: string;
+  isCurrentUser?: boolean;
+  moderationStatus?: 'pending' | 'approved' | 'rejected';
+  rejectionReason?: string;
 }
 
 interface ServiceReviewsProps {
@@ -120,18 +123,34 @@ export default function ServiceReviews({ reviews, serviceRating, serviceReviewsC
 
       <div className="grid md:grid-cols-2 gap-6">
         {reviews.map((review) => (
-          <Card key={review.id} className="bg-card/50 border-border">
+          <Card 
+            key={review.id} 
+            className={`bg-card/50 border-border ${
+              review.isCurrentUser ? 'ring-2 ring-accent/30' : ''
+            }`}
+          >
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 flex-1">
                   <Avatar className="w-12 h-12 border-2 border-accent/30">
                     <AvatarImage src={review.avatar} alt={review.author} />
                     <AvatarFallback className="bg-accent/10 text-accent">
                       {review.author.split(' ').map(n => n[0]).join('')}
                     </AvatarFallback>
                   </Avatar>
-                  <div>
-                    <h4 className="font-bold">{review.author}</h4>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <h4 className={`font-bold ${
+                        review.isCurrentUser ? 'text-accent' : ''
+                      }`}>
+                        {review.author}
+                      </h4>
+                      {review.isCurrentUser && (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-accent/20 text-accent font-medium">
+                          Вы
+                        </span>
+                      )}
+                    </div>
                     <p className="text-xs text-muted-foreground">{review.date}</p>
                   </div>
                 </div>
@@ -141,6 +160,35 @@ export default function ServiceReviews({ reviews, serviceRating, serviceReviewsC
                   ))}
                 </div>
               </div>
+              {review.isCurrentUser && review.moderationStatus && (
+                <div className="mt-3 pt-3 border-t border-border">
+                  <div className="flex items-center gap-2">
+                    {review.moderationStatus === 'pending' && (
+                      <>
+                        <Icon name="Clock" className="text-amber-500" size={16} />
+                        <span className="text-xs font-medium text-amber-500">На модерации</span>
+                      </>
+                    )}
+                    {review.moderationStatus === 'approved' && (
+                      <>
+                        <Icon name="CheckCircle2" className="text-green-500" size={16} />
+                        <span className="text-xs font-medium text-green-500">Опубликован</span>
+                      </>
+                    )}
+                    {review.moderationStatus === 'rejected' && (
+                      <>
+                        <Icon name="XCircle" className="text-red-500" size={16} />
+                        <span className="text-xs font-medium text-red-500">Отклонён</span>
+                      </>
+                    )}
+                  </div>
+                  {review.moderationStatus === 'rejected' && review.rejectionReason && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Причина: {review.rejectionReason}
+                    </p>
+                  )}
+                </div>
+              )}
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground leading-relaxed">
