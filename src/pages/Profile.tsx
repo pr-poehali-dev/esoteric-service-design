@@ -184,14 +184,19 @@ export default function Profile() {
                   <CardTitle className="text-2xl" style={{ fontFamily: 'Playfair Display, serif' }}>
                     История услуг
                   </CardTitle>
-                  <Badge variant="outline" className="text-muted-foreground">
-                    {services.length} записей
-                  </Badge>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => navigate('/orders')}
+                  >
+                    <Icon name="Package" size={16} className="mr-2" />
+                    Все заказы
+                  </Button>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {services.map((service) => (
+                  {services.slice(0, 3).map((service) => (
                     <div
                       key={service.id}
                       className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-border hover:border-accent/30 transition-colors"

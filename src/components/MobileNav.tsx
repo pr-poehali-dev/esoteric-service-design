@@ -7,7 +7,7 @@ export default function MobileNav() {
   const navItems = [
     { path: '/', icon: 'Home', label: 'Главная' },
     { path: '/services', icon: 'ShoppingBag', label: 'Услуги' },
-    { path: '/products', icon: 'Package', label: 'Товары' },
+    { path: '/orders', icon: 'Package', label: 'Заказы' },
     { path: '/authors', icon: 'Users', label: 'Авторы' },
     { path: '/profile', icon: 'User', label: 'Профиль' }
   ];
