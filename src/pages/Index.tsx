@@ -204,25 +204,25 @@ export default function Index() {
             </h1>
           </Link>
           <div className="flex items-center space-x-2">
-            <Link to="/services">
+            <Link to="/services" className="hidden md:inline-block">
               <Button variant="ghost" size="sm">
-                <Icon name="ShoppingBag" size={16} className="mr-2" />
-                Услуги
+                <Icon name="ShoppingBag" size={16} className="md:mr-2" />
+                <span className="hidden md:inline">Услуги</span>
               </Button>
             </Link>
-            <Button variant="ghost" size="sm">
-              <Icon name="Package" size={16} className="mr-2" />
-              Товары
+            <Button variant="ghost" size="sm" className="hidden md:inline-flex">
+              <Icon name="Package" size={16} className="md:mr-2" />
+              <span className="hidden md:inline">Товары</span>
             </Button>
-            <Button variant="ghost" size="sm">
-              <Icon name="Users" size={16} className="mr-2" />
-              Авторы
+            <Button variant="ghost" size="sm" className="hidden md:inline-flex">
+              <Icon name="Users" size={16} className="md:mr-2" />
+              <span className="hidden md:inline">Авторы</span>
             </Button>
             <NotificationCenter />
             <Link to="/profile">
               <Button variant="ghost" size="sm">
-                <Icon name="User" size={16} className="mr-2" />
-                Профиль
+                <Icon name="User" size={16} className="md:mr-2" />
+                <span className="hidden md:inline">Профиль</span>
               </Button>
             </Link>
           </div>
