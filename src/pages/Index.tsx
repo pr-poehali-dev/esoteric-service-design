@@ -9,6 +9,7 @@ import Icon from '@/components/ui/icon';
 import NotificationCenter from '@/components/notifications/NotificationCenter';
 import Footer from '@/components/Footer';
 import FadeIn from '@/components/ui/fade-in';
+import MobileNav from '@/components/MobileNav';
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -194,7 +195,7 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground pb-20 md:pb-0">
       <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
@@ -521,6 +522,7 @@ export default function Index() {
       </div>
 
       <Footer />
+      <MobileNav />
     </div>
   );
 }
