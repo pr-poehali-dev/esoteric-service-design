@@ -169,6 +169,15 @@ export default function Profile() {
 
                 <Button 
                   variant="outline"
+                  className="w-full border-border hover:bg-accent/10"
+                  onClick={() => navigate('/favorites')}
+                >
+                  <Icon name="Heart" size={16} className="mr-2" />
+                  Мои избранные
+                </Button>
+
+                <Button 
+                  variant="outline"
                   className="w-full border-destructive/30 text-destructive hover:bg-destructive/10"
                   onClick={() => navigate('/auth')}
                 >
