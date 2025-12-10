@@ -199,9 +199,9 @@ export default function Index() {
       <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
-            <Icon name="Sparkles" className="text-accent" size={32} />
+            <img src="https://cdn.poehali.dev/projects/c12b3f43-75dd-4704-be69-05b102369318/files/94bb61a2-8a70-485d-ad4a-3d8ae17e25bb.jpg" alt="Мистический мир" className="w-10 h-10 object-contain" />
             <h1 className="text-2xl font-bold bg-gradient-to-r from-accent via-mystic-violet to-accent bg-clip-text text-transparent animate-gradient" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Мистерия
+              Мистический мир
             </h1>
           </Link>
           <div className="flex items-center space-x-2">
