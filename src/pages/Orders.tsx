@@ -223,14 +223,25 @@ export default function Orders() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-3">
               <p className="text-sm text-muted-foreground">
                 Найдено заказов: <span className="font-semibold">{filteredOrders.length}</span>
               </p>
-              <Button variant="outline" size="sm" onClick={resetFilters}>
-                <Icon name="RotateCcw" size={16} className="mr-2" />
-                Сбросить фильтры
-              </Button>
+              <div className="flex gap-2">
+                <Button 
+                  variant="default" 
+                  size="sm" 
+                  onClick={() => setCurrentPage(1)}
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground"
+                >
+                  <Icon name="Filter" size={16} className="mr-2" />
+                  Применить фильтры
+                </Button>
+                <Button variant="outline" size="sm" onClick={resetFilters}>
+                  <Icon name="RotateCcw" size={16} className="mr-2" />
+                  Сбросить
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
