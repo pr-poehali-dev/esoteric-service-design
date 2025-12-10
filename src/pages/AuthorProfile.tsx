@@ -9,11 +9,30 @@ import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
 import NotificationCenter from '@/components/notifications/NotificationCenter';
+import AuthorGallery from '@/components/author/AuthorGallery';
 
 export default function AuthorProfile() {
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
   const [showReviewDialog, setShowReviewDialog] = useState(false);
+
+  const galleryImages = [
+    {
+      id: 1,
+      url: 'https://cdn.poehali.dev/projects/c12b3f43-75dd-4704-be69-05b102369318/files/7e55d306-05fb-4b8c-bf31-31f44d42b8d2.jpg',
+      alt: 'Рабочее место астролога'
+    },
+    {
+      id: 2,
+      url: 'https://cdn.poehali.dev/projects/c12b3f43-75dd-4704-be69-05b102369318/files/bf9168cf-396d-4702-8f64-7a1613c35067.jpg',
+      alt: 'Натальная карта'
+    },
+    {
+      id: 3,
+      url: 'https://cdn.poehali.dev/projects/c12b3f43-75dd-4704-be69-05b102369318/files/98eaf36c-0c82-42a8-a212-0b74ac75a323.jpg',
+      alt: 'Таро сессия'
+    }
+  ];
 
   const author = {
     id: 1,
@@ -254,6 +273,10 @@ export default function AuthorProfile() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
+            <div className="mb-8">
+              <AuthorGallery images={galleryImages} />
+            </div>
+
             <div className="mb-12">
               <h2 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
                 О себе
