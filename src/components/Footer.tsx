@@ -82,9 +82,9 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-accent transition-colors">
+                <Link to="/faq" className="text-muted-foreground hover:text-accent transition-colors">
                   FAQ
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#" className="text-muted-foreground hover:text-accent transition-colors">
