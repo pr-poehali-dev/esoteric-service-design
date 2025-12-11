@@ -15,6 +15,20 @@ export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isUserLoggedIn] = useState(true);
   const [userZodiac] = useState('Рыбы');
+  const [favoriteServices, setFavoriteServices] = useState<number[]>([]);
+  const [favoriteAuthors, setFavoriteAuthors] = useState<number[]>([]);
+
+  const toggleFavoriteService = (id: number) => {
+    setFavoriteServices(prev => 
+      prev.includes(id) ? prev.filter(fav => fav !== id) : [...prev, id]
+    );
+  };
+
+  const toggleFavoriteAuthor = (id: number) => {
+    setFavoriteAuthors(prev => 
+      prev.includes(id) ? prev.filter(fav => fav !== id) : [...prev, id]
+    );
+  };
 
   const getZodiacIcon = (zodiac: string) => {
     const icons: { [key: string]: string } = {
@@ -395,9 +409,30 @@ export default function Index() {
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-                <Badge className={`absolute top-3 right-3 ${getSubscriptionColor(service.subscription)}`}>
-                  {service.subscription}
-                </Badge>
+                <div className="absolute top-3 right-3 flex gap-2">
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className={`w-9 h-9 backdrop-blur-sm transition-colors ${
+                      favoriteServices.includes(service.id)
+                        ? 'bg-red-500/90 hover:bg-red-600/90 text-white'
+                        : 'bg-white/90 hover:bg-white text-gray-600 hover:text-red-500'
+                    }`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleFavoriteService(service.id);
+                    }}
+                  >
+                    <Icon 
+                      name="Heart" 
+                      size={18} 
+                      className={favoriteServices.includes(service.id) ? 'fill-current' : ''}
+                    />
+                  </Button>
+                  <Badge className={`${getSubscriptionColor(service.subscription)}`}>
+                    {service.subscription}
+                  </Badge>
+                </div>
               </div>
 
               <CardHeader className="pb-3">
@@ -458,8 +493,27 @@ export default function Index() {
           {popularAuthors.map((author, index) => (
             <FadeIn key={author.id} delay={index * 100} direction="up">
               <Card 
-              className="group overflow-hidden bg-card/50 border-border hover:border-accent/50 transition-all duration-300 hover:scale-[1.02]"
+              className="group overflow-hidden bg-card/50 border-border hover:border-accent/50 transition-all duration-300 hover:scale-[1.02] relative"
             >
+              <Button
+                size="icon"
+                variant="ghost"
+                className={`absolute top-4 right-4 z-10 w-9 h-9 transition-colors ${
+                  favoriteAuthors.includes(author.id)
+                    ? 'text-red-500 hover:text-red-600 bg-card/80 hover:bg-card'
+                    : 'text-gray-400 hover:text-red-500 bg-card/80 hover:bg-card'
+                }`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  toggleFavoriteAuthor(author.id);
+                }}
+              >
+                <Icon 
+                  name="Heart" 
+                  size={20} 
+                  className={favoriteAuthors.includes(author.id) ? 'fill-current' : ''}
+                />
+              </Button>
               <CardHeader className="text-center pb-3">
                 <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-accent/30 group-hover:border-accent transition-colors">
                   <AvatarImage src={author.avatar} alt={author.name} />
