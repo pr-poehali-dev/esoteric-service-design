@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Icon from '@/components/ui/icon';
 import Footer from '@/components/Footer';
 import MobileNav from '@/components/MobileNav';
+import FeedbackModal from '@/components/FeedbackModal';
 
 type OrderStatus = 'pending' | 'in_progress' | 'completed' | 'cancelled';
 
@@ -104,6 +105,8 @@ export default function Orders() {
   const [dateFrom, setDateFrom] = useState<string>('');
   const [dateTo, setDateTo] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState<string>('');
   const itemsPerPage = 5;
 
   // Получаем уникальные услуги для фильтра
@@ -352,12 +355,26 @@ export default function Orders() {
                             </Button>
                           </Link>
                           {order.status === 'completed' && (
-                            <Link to="/chat">
-                              <Button variant="outline" size="sm">
-                                <Icon name="MessageCircle" size={16} className="mr-2" />
-                                Связаться с автором
+                            <>
+                              <Link to="/chat">
+                                <Button variant="outline" size="sm">
+                                  <Icon name="MessageCircle" size={16} className="mr-2" />
+                                  Связаться с автором
+                                </Button>
+                              </Link>
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedOrderId(order.id.toString());
+                                  setFeedbackModalOpen(true);
+                                }}
+                                className="text-muted-foreground hover:text-foreground"
+                              >
+                                <Icon name="Flag" size={16} className="mr-2" />
+                                Пожаловаться
                               </Button>
-                            </Link>
+                            </>
                           )}
                           {order.status === 'pending' && (
                             <Button variant="outline" size="sm" className="text-red-600 border-red-600 hover:bg-red-50">
@@ -426,6 +443,13 @@ export default function Orders() {
 
       <Footer />
       <MobileNav />
+      
+      <FeedbackModal
+        open={feedbackModalOpen}
+        onOpenChange={setFeedbackModalOpen}
+        orderId={selectedOrderId}
+        defaultType="complaint"
+      />
     </div>
   );
 }
