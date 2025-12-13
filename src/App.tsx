@@ -21,6 +21,7 @@ import Auth from "./pages/Auth";
 import AllReviews from "./pages/AllReviews";
 import Privacy from "./pages/Privacy";
 import Orders from "./pages/Orders";
+import OrderDetail from "./pages/OrderDetail";
 import FAQ from "./pages/FAQ";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -52,6 +53,7 @@ const App = () => (
           <Route path="/reviews" element={<AllReviews />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/order/:id" element={<OrderDetail />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />

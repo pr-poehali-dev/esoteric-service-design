@@ -294,11 +294,11 @@ export default function Orders() {
             paginatedOrders.map(order => {
               const statusInfo = statusConfig[order.status];
               return (
-                <Card key={order.id} className="hover:shadow-lg transition-shadow">
+                <Card key={order.id} className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate(`/order/${order.id}`)}>
                   <CardContent className="p-6">
                     <div className="flex flex-col md:flex-row gap-6">
                       {/* Service Image */}
-                      <Link to={`/service/${order.serviceId}`} className="shrink-0">
+                      <Link to={`/service/${order.serviceId}`} className="shrink-0" onClick={(e) => e.stopPropagation()}>
                         <img
                           src={order.serviceImage}
                           alt={order.serviceName}
@@ -385,24 +385,35 @@ export default function Orders() {
 
                         {/* Actions */}
                         <div className="flex flex-wrap gap-2 mt-4">
-                          <Link to={`/service/${order.serviceId}`}>
-                            <Button variant="outline" size="sm">
-                              <Icon name="Eye" size={16} className="mr-2" />
-                              Подробнее об услуге
-                            </Button>
-                          </Link>
+                          <Button 
+                            variant="default" 
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/order/${order.id}`);
+                            }}
+                          >
+                            <Icon name="Eye" size={16} className="mr-2" />
+                            Подробнее
+                          </Button>
                           {order.status === 'completed' && (
                             <>
-                              <Link to="/chat">
-                                <Button variant="outline" size="sm">
-                                  <Icon name="MessageCircle" size={16} className="mr-2" />
-                                  Связаться с автором
-                                </Button>
-                              </Link>
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigate('/chat');
+                                }}
+                              >
+                                <Icon name="MessageCircle" size={16} className="mr-2" />
+                                Связаться
+                              </Button>
                               <Button 
                                 variant="ghost" 
                                 size="sm"
-                                onClick={() => {
+                                onClick={(e) => {
+                                  e.stopPropagation();
                                   setSelectedOrderId(order.id.toString());
                                   setFeedbackModalOpen(true);
                                 }}
@@ -418,14 +429,22 @@ export default function Orders() {
                               <Button 
                                 variant="outline" 
                                 size="sm"
-                                onClick={() => handleEditMessage(order)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleEditMessage(order);
+                                }}
                               >
                                 <Icon name="Edit" size={16} className="mr-2" />
                                 Редактировать
                               </Button>
-                              <Button variant="outline" size="sm" className="text-red-600 border-red-600 hover:bg-red-50">
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="text-red-600 border-red-600 hover:bg-red-50"
+                                onClick={(e) => e.stopPropagation()}
+                              >
                                 <Icon name="XCircle" size={16} className="mr-2" />
-                                Отменить заказ
+                                Отменить
                               </Button>
                             </>
                           )}
