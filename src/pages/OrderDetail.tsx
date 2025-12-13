@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import MobileNav from '@/components/MobileNav';
 import EditOrderMessageModal from '@/components/EditOrderMessageModal';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface OrderDetail {
   id: number;
@@ -105,7 +106,25 @@ export default function OrderDetail() {
   if (!order) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5">
-        <Header />
+        <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
+          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+            <Link to="/" className="flex items-center space-x-2">
+              <img src="https://cdn.poehali.dev/projects/c12b3f43-75dd-4704-be69-05b102369318/files/94bb61a2-8a70-485d-ad4a-3d8ae17e25bb.jpg" alt="Мистический мир" className="w-10 h-10 object-contain" />
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-accent via-mystic-violet to-accent bg-clip-text text-transparent" style={{ fontFamily: 'Playfair Display, serif' }}>
+                Мистический мир
+              </h1>
+            </Link>
+            <div className="flex items-center space-x-2">
+              <NotificationCenter />
+              <Link to="/profile">
+                <Button variant="ghost" size="sm">
+                  <Icon name="User" size={16} className="md:mr-2" />
+                  <span className="hidden md:inline">Профиль</span>
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </nav>
         <div className="container mx-auto px-4 py-8 text-center">
           <Icon name="AlertCircle" size={64} className="mx-auto text-gray-400 mb-4" />
           <h2 className="text-2xl font-bold mb-2">Заказ не найден</h2>
@@ -120,7 +139,25 @@ export default function OrderDetail() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 pb-24 md:pb-8">
-      <Header />
+      <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <Link to="/" className="flex items-center space-x-2">
+            <img src="https://cdn.poehali.dev/projects/c12b3f43-75dd-4704-be69-05b102369318/files/94bb61a2-8a70-485d-ad4a-3d8ae17e25bb.jpg" alt="Мистический мир" className="w-10 h-10 object-contain" />
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-accent via-mystic-violet to-accent bg-clip-text text-transparent" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Мистический мир
+            </h1>
+          </Link>
+          <div className="flex items-center space-x-2">
+            <NotificationCenter />
+            <Link to="/profile">
+              <Button variant="ghost" size="sm">
+                <Icon name="User" size={16} className="md:mr-2" />
+                <span className="hidden md:inline">Профиль</span>
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </nav>
 
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Back Button */}
