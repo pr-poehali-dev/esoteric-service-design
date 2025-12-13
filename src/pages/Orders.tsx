@@ -9,8 +9,9 @@ import Icon from '@/components/ui/icon';
 import Footer from '@/components/Footer';
 import MobileNav from '@/components/MobileNav';
 import FeedbackModal from '@/components/FeedbackModal';
+import EditOrderMessageModal from '@/components/EditOrderMessageModal';
 
-type OrderStatus = 'pending' | 'in_progress' | 'completed' | 'cancelled';
+type OrderStatus = 'pending' | 'in_progress' | 'completed' | 'cancelled' | 'needs_clarification';
 
 interface Order {
   id: number;
@@ -21,6 +22,7 @@ interface Order {
   price: number;
   orderDate: string;
   completedDate?: string;
+  message?: string;
   attachedFiles?: Array<{
     name: string;
     url: string;
@@ -60,6 +62,17 @@ const mockOrders: Order[] = [
     status: 'pending',
     price: 2000,
     orderDate: '2024-12-05',
+    message: 'Хочу получить полный нумерологический анализ по дате рождения 15.03.1990'
+  },
+  {
+    id: 6,
+    serviceId: 5,
+    serviceName: 'Астрологический прогноз на год',
+    serviceImage: 'https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=500',
+    status: 'needs_clarification',
+    price: 4500,
+    orderDate: '2024-12-10',
+    message: 'Нужен прогноз на 2025 год'
   },
   {
     id: 4,
@@ -89,7 +102,8 @@ const statusConfig: Record<OrderStatus, { label: string; color: string; icon: st
   pending: { label: 'Ожидает', color: 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20', icon: 'Clock' },
   in_progress: { label: 'В работе', color: 'bg-blue-500/10 text-blue-600 border-blue-500/20', icon: 'Loader' },
   completed: { label: 'Выполнен', color: 'bg-green-500/10 text-green-600 border-green-500/20', icon: 'CheckCircle' },
-  cancelled: { label: 'Отменён', color: 'bg-red-500/10 text-red-600 border-red-500/20', icon: 'XCircle' }
+  cancelled: { label: 'Отменён', color: 'bg-red-500/10 text-red-600 border-red-500/20', icon: 'XCircle' },
+  needs_clarification: { label: 'Требуется уточнение', color: 'bg-orange-500/10 text-orange-600 border-orange-500/20', icon: 'AlertCircle' }
 };
 
 const fileTypeIcons: Record<string, string> = {
@@ -107,6 +121,8 @@ export default function Orders() {
   const [currentPage, setCurrentPage] = useState(1);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState<string>('');
+  const [editMessageModalOpen, setEditMessageModalOpen] = useState(false);
+  const [editingOrder, setEditingOrder] = useState<Order | null>(null);
   const itemsPerPage = 5;
 
   // Получаем уникальные услуги для фильтра
@@ -133,6 +149,15 @@ export default function Orders() {
     setDateFrom('');
     setDateTo('');
     setCurrentPage(1);
+  };
+
+  const handleEditMessage = (order: Order) => {
+    setEditingOrder(order);
+    setEditMessageModalOpen(true);
+  };
+
+  const handleSaveMessage = (message: string) => {
+    console.log('Сохранено сообщение для заказа', editingOrder?.id, ':', message);
   };
 
   return (
@@ -182,6 +207,7 @@ export default function Orders() {
                   <SelectContent>
                     <SelectItem value="all">Все статусы</SelectItem>
                     <SelectItem value="pending">Ожидает</SelectItem>
+                    <SelectItem value="needs_clarification">Требуется уточнение</SelectItem>
                     <SelectItem value="in_progress">В работе</SelectItem>
                     <SelectItem value="completed">Выполнен</SelectItem>
                     <SelectItem value="cancelled">Отменён</SelectItem>
@@ -312,6 +338,17 @@ export default function Orders() {
                           </div>
                         </div>
 
+                        {/* Order Message */}
+                        {order.message && (
+                          <div className="mt-4 p-4 bg-muted/30 rounded-lg border">
+                            <h4 className="font-semibold mb-2 flex items-center gap-2">
+                              <Icon name="MessageSquare" size={16} />
+                              Сообщение для автора
+                            </h4>
+                            <p className="text-sm text-muted-foreground">{order.message}</p>
+                          </div>
+                        )}
+
                         {/* Attached Files */}
                         {order.status === 'completed' && order.attachedFiles && order.attachedFiles.length > 0 && (
                           <div className="mt-4 p-4 bg-accent/5 rounded-lg border border-accent/20">
@@ -376,11 +413,21 @@ export default function Orders() {
                               </Button>
                             </>
                           )}
-                          {order.status === 'pending' && (
-                            <Button variant="outline" size="sm" className="text-red-600 border-red-600 hover:bg-red-50">
-                              <Icon name="XCircle" size={16} className="mr-2" />
-                              Отменить заказ
-                            </Button>
+                          {(order.status === 'pending' || order.status === 'needs_clarification') && (
+                            <>
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                onClick={() => handleEditMessage(order)}
+                              >
+                                <Icon name="Edit" size={16} className="mr-2" />
+                                Редактировать
+                              </Button>
+                              <Button variant="outline" size="sm" className="text-red-600 border-red-600 hover:bg-red-50">
+                                <Icon name="XCircle" size={16} className="mr-2" />
+                                Отменить заказ
+                              </Button>
+                            </>
                           )}
                         </div>
                       </div>
@@ -449,6 +496,14 @@ export default function Orders() {
         onOpenChange={setFeedbackModalOpen}
         orderId={selectedOrderId}
         defaultType="complaint"
+      />
+
+      <EditOrderMessageModal
+        open={editMessageModalOpen}
+        onOpenChange={setEditMessageModalOpen}
+        orderId={editingOrder?.id.toString() || ''}
+        currentMessage={editingOrder?.message || ''}
+        onSave={handleSaveMessage}
       />
     </div>
   );
