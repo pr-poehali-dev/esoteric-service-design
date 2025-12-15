@@ -183,7 +183,11 @@ export default function Auth() {
                     Войти
                   </Button>
 
-                  <Button variant="link" className="w-full text-sm text-muted-foreground">
+                  <Button 
+                    variant="link" 
+                    onClick={() => navigate('/forgot-password')}
+                    className="w-full text-sm text-muted-foreground"
+                  >
                     Забыли пароль?
                   </Button>
                 </div>

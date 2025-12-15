@@ -18,6 +18,7 @@ import Chat from "./pages/Chat";
 import ServiceDetail from "./pages/ServiceDetail";
 import AuthorProfile from "./pages/AuthorProfile";
 import Auth from "./pages/Auth";
+import ForgotPassword from "./pages/ForgotPassword";
 import AllReviews from "./pages/AllReviews";
 import Privacy from "./pages/Privacy";
 import Orders from "./pages/Orders";
@@ -50,6 +51,7 @@ const App = () => (
           <Route path="/author/:id" element={<AuthorProfile />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reviews" element={<AllReviews />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/orders" element={<Orders />} />
