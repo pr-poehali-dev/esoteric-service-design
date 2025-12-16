@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CookieBanner from "./components/CookieBanner";
+import DevBanner from "./components/DevBanner";
 import Index from "./pages/Index";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
@@ -38,6 +39,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <DevBanner />
         <CookieBanner />
         <Routes>
           <Route path="/" element={<Index />} />
