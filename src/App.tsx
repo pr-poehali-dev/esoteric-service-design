@@ -31,6 +31,7 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import Custom404 from "./pages/Custom404";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentError from "./pages/PaymentError";
 
 const queryClient = new QueryClient();
 
@@ -66,6 +67,7 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/payment-error" element={<PaymentError />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<Custom404 />} />
         </Routes>
