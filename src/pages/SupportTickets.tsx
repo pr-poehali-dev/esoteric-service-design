@@ -3,10 +3,19 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Textarea } from '@/components/ui/textarea';
 import Icon from '@/components/ui/icon';
 import Footer from '@/components/Footer';
 import MobileNav from '@/components/MobileNav';
 import FadeIn from '@/components/ui/fade-in';
+
+interface Message {
+  id: number;
+  sender: 'user' | 'support';
+  text: string;
+  createdAt: string;
+  replyTo?: number;
+}
 
 interface Ticket {
   id: number;
@@ -20,6 +29,7 @@ interface Ticket {
   response?: string;
   createdAt: string;
   respondedAt?: string;
+  messages?: Message[];
 }
 
 export default function SupportTickets() {
@@ -35,7 +45,29 @@ export default function SupportTickets() {
       status: 'answered',
       response: 'Добрый день! Ваш заказ находится в пути и будет доставлен завтра до 18:00. Трек-номер для отслеживания: RU123456789.',
       createdAt: '2024-01-15T10:30:00',
-      respondedAt: '2024-01-15T14:20:00'
+      respondedAt: '2024-01-15T14:20:00',
+      messages: [
+        {
+          id: 1,
+          sender: 'user',
+          text: 'Здравствуйте! Хотела бы уточнить, когда будет доставлен мой заказ #12345. Прошло уже 5 дней с момента оплаты.',
+          createdAt: '2024-01-15T10:30:00'
+        },
+        {
+          id: 2,
+          sender: 'support',
+          text: 'Добрый день! Ваш заказ находится в пути и будет доставлен завтра до 18:00. Трек-номер для отслеживания: RU123456789.',
+          createdAt: '2024-01-15T14:20:00',
+          replyTo: 1
+        },
+        {
+          id: 3,
+          sender: 'user',
+          text: 'Спасибо за информацию! А можно изменить адрес доставки?',
+          createdAt: '2024-01-15T15:30:00',
+          replyTo: 2
+        }
+      ]
     },
     {
       id: 2,
@@ -45,7 +77,15 @@ export default function SupportTickets() {
       message: 'Интересует консультация по таро. Сколько длится сеанс и какая стоимость?',
       ticketType: 'service',
       status: 'pending',
-      createdAt: '2024-01-16T09:15:00'
+      createdAt: '2024-01-16T09:15:00',
+      messages: [
+        {
+          id: 1,
+          sender: 'user',
+          text: 'Интересует консультация по таро. Сколько длится сеанс и какая стоимость?',
+          createdAt: '2024-01-16T09:15:00'
+        }
+      ]
     },
     {
       id: 3,
@@ -58,11 +98,28 @@ export default function SupportTickets() {
       status: 'answered',
       response: 'Конечно! Для оформления возврата, пожалуйста, заполните форму возврата в личном кабинете в разделе "Мои заказы". Возврат средств осуществляется в течение 7 рабочих дней.',
       createdAt: '2024-01-10T16:45:00',
-      respondedAt: '2024-01-10T18:30:00'
+      respondedAt: '2024-01-10T18:30:00',
+      messages: [
+        {
+          id: 1,
+          sender: 'user',
+          text: 'Получила товар, но он не подошел по размеру. Можно ли оформить возврат?',
+          createdAt: '2024-01-10T16:45:00'
+        },
+        {
+          id: 2,
+          sender: 'support',
+          text: 'Конечно! Для оформления возврата, пожалуйста, заполните форму возврата в личном кабинете в разделе "Мои заказы". Возврат средств осуществляется в течение 7 рабочих дней.',
+          createdAt: '2024-01-10T18:30:00',
+          replyTo: 1
+        }
+      ]
     }
   ]);
 
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+  const [replyMessage, setReplyMessage] = useState('');
+  const [replyToMessage, setReplyToMessage] = useState<number | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -107,6 +164,33 @@ export default function SupportTickets() {
       hour: '2-digit',
       minute: '2-digit'
     });
+  };
+
+  const handleSendReply = () => {
+    if (!replyMessage.trim() || !selectedTicket) return;
+    
+    // Здесь будет логика отправки сообщения на сервер
+    console.log('Отправка сообщения:', {
+      ticketId: selectedTicket.id,
+      message: replyMessage,
+      replyTo: replyToMessage
+    });
+    
+    // Очищаем форму
+    setReplyMessage('');
+    setReplyToMessage(null);
+  };
+
+  const handleReplyToMessage = (messageId: number) => {
+    setReplyToMessage(messageId);
+    // Фокус на textarea
+    setTimeout(() => {
+      document.getElementById('reply-textarea')?.focus();
+    }, 100);
+  };
+
+  const getReplyToMessage = (messageId: number) => {
+    return selectedTicket?.messages?.find(m => m.id === messageId);
   };
 
   return (
@@ -258,56 +342,138 @@ export default function SupportTickets() {
                         </CardHeader>
 
                         {selectedTicket?.id === ticket.id && (
-                          <CardContent className="pt-0 space-y-6">
-                            <div className="border-t pt-6">
-                              <div className="flex items-start gap-3">
-                                <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
-                                  <Icon name="User" size={20} className="text-accent" />
-                                </div>
-                                <div className="flex-1">
-                                  <div className="flex items-center gap-2 mb-1">
-                                    <span className="font-semibold">{ticket.name}</span>
-                                    <span className="text-sm text-muted-foreground">
-                                      {formatDate(ticket.createdAt)}
-                                    </span>
-                                  </div>
-                                  <p className="text-muted-foreground whitespace-pre-wrap">
-                                    {ticket.message}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-
-                            {ticket.response && (
-                              <div className="border-t pt-6">
-                                <div className="flex items-start gap-3">
-                                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                                    <Icon name="Headphones" size={20} className="text-green-600" />
-                                  </div>
-                                  <div className="flex-1">
-                                    <div className="flex items-center gap-2 mb-1">
-                                      <span className="font-semibold">Служба поддержки</span>
-                                      {ticket.respondedAt && (
-                                        <span className="text-sm text-muted-foreground">
-                                          {formatDate(ticket.respondedAt)}
-                                        </span>
-                                      )}
+                          <CardContent className="pt-0 space-y-4">
+                            <div className="border-t pt-6 space-y-6">
+                              {/* История сообщений */}
+                              {ticket.messages?.map((message) => (
+                                <div key={message.id} className="space-y-3">
+                                  {/* Если есть ответ на сообщение - показываем контекст */}
+                                  {message.replyTo && (
+                                    <div className="ml-12 pl-4 border-l-2 border-muted">
+                                      {(() => {
+                                        const replyMsg = getReplyToMessage(message.replyTo);
+                                        return replyMsg ? (
+                                          <div className="text-sm text-muted-foreground">
+                                            <div className="flex items-center gap-2 mb-1">
+                                              <Icon name="CornerDownRight" size={14} />
+                                              <span className="font-medium">
+                                                {replyMsg.sender === 'user' ? ticket.name : 'Служба поддержки'}
+                                              </span>
+                                            </div>
+                                            <p className="line-clamp-2">{replyMsg.text}</p>
+                                          </div>
+                                        ) : null;
+                                      })()}
                                     </div>
-                                    <p className="text-muted-foreground whitespace-pre-wrap">
-                                      {ticket.response}
-                                    </p>
+                                  )}
+                                  
+                                  {/* Само сообщение */}
+                                  <div className="flex items-start gap-3 group">
+                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                      message.sender === 'user' 
+                                        ? 'bg-accent/20' 
+                                        : 'bg-green-100'
+                                    }`}>
+                                      <Icon 
+                                        name={message.sender === 'user' ? 'User' : 'Headphones'} 
+                                        size={20} 
+                                        className={message.sender === 'user' ? 'text-accent' : 'text-green-600'}
+                                      />
+                                    </div>
+                                    <div className="flex-1">
+                                      <div className="flex items-center gap-2 mb-1">
+                                        <span className="font-semibold">
+                                          {message.sender === 'user' ? ticket.name : 'Служба поддержки'}
+                                        </span>
+                                        <span className="text-sm text-muted-foreground">
+                                          {formatDate(message.createdAt)}
+                                        </span>
+                                      </div>
+                                      <p className="text-muted-foreground whitespace-pre-wrap">
+                                        {message.text}
+                                      </p>
+                                    </div>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="opacity-0 group-hover:opacity-100 transition-opacity"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleReplyToMessage(message.id);
+                                      }}
+                                    >
+                                      <Icon name="Reply" size={16} />
+                                    </Button>
                                   </div>
                                 </div>
-                              </div>
-                            )}
+                              ))}
 
-                            {!ticket.response && ticket.status === 'pending' && (
-                              <div className="border-t pt-6">
+                              {/* Индикатор обработки */}
+                              {ticket.status === 'pending' && (
                                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex items-center gap-3">
                                   <Icon name="Clock" size={24} className="text-yellow-600 flex-shrink-0" />
                                   <p className="text-sm text-yellow-800">
                                     Ваше обращение находится в обработке. Мы ответим в течение 24 часов.
                                   </p>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Форма для ответа */}
+                            {ticket.status !== 'closed' && (
+                              <div className="border-t pt-6 space-y-4">
+                                {replyToMessage && (
+                                  <div className="bg-muted/50 rounded-lg p-3 flex items-start gap-2">
+                                    <Icon name="CornerDownRight" size={16} className="text-muted-foreground mt-1 flex-shrink-0" />
+                                    <div className="flex-1 min-w-0">
+                                      <div className="text-sm font-medium mb-1">
+                                        Ответ на сообщение
+                                      </div>
+                                      {(() => {
+                                        const replyMsg = getReplyToMessage(replyToMessage);
+                                        return replyMsg ? (
+                                          <p className="text-sm text-muted-foreground line-clamp-2">
+                                            {replyMsg.text}
+                                          </p>
+                                        ) : null;
+                                      })()}
+                                    </div>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => setReplyToMessage(null)}
+                                    >
+                                      <Icon name="X" size={16} />
+                                    </Button>
+                                  </div>
+                                )}
+
+                                <div className="space-y-3">
+                                  <Textarea
+                                    id="reply-textarea"
+                                    placeholder="Напишите ваше сообщение..."
+                                    value={replyMessage}
+                                    onChange={(e) => setReplyMessage(e.target.value)}
+                                    className="min-h-[100px] resize-none"
+                                  />
+                                  <div className="flex justify-end gap-2">
+                                    <Button
+                                      variant="outline"
+                                      onClick={() => {
+                                        setReplyMessage('');
+                                        setReplyToMessage(null);
+                                      }}
+                                    >
+                                      Очистить
+                                    </Button>
+                                    <Button
+                                      onClick={handleSendReply}
+                                      disabled={!replyMessage.trim()}
+                                    >
+                                      <Icon name="Send" size={16} className="mr-2" />
+                                      Отправить
+                                    </Button>
+                                  </div>
                                 </div>
                               </div>
                             )}
