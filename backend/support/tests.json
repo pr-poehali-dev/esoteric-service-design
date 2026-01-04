@@ -1,0 +1,35 @@
+{
+  "tests": [
+    {
+      "name": "Create support ticket",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "userId": "test-user-123",
+        "name": "Иван Иванов",
+        "email": "ivan@example.com",
+        "subject": "Вопрос о заказе",
+        "message": "Когда будет доставлен мой заказ?",
+        "orderNumber": "ORD-001",
+        "ticketType": "order"
+      },
+      "expectedStatus": 201,
+      "expectedBody": {
+        "success": true,
+        "ticketId": "number",
+        "createdAt": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get user tickets",
+      "method": "GET",
+      "path": "/?userId=test-user-123",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "tickets": "array"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
