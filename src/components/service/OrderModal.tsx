@@ -34,6 +34,24 @@ export default function OrderModal({ isOpen, onClose, service }: OrderModalProps
     onClose();
   };
 
+  const fillFromProfile = () => {
+    // Получаем данные из localStorage
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        const profileData = `Имя: ${user.name || ''}
+Email: ${user.email || ''}
+Телефон: ${user.phone || ''}
+Дата рождения: ${user.birthDate || ''}
+Место: ${user.location || ''}`;
+        setAdditionalInfo(profileData.trim());
+      } catch (error) {
+        console.error('Ошибка загрузки данных профиля:', error);
+      }
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md bg-card border-border">
@@ -61,9 +79,21 @@ export default function OrderModal({ isOpen, onClose, service }: OrderModalProps
           </div>
 
           <div>
-            <label className="text-sm font-medium mb-2 block">
-              Сообщение для автора
-            </label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-sm font-medium">
+                Сообщение для автора
+              </label>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={fillFromProfile}
+                className="text-xs h-auto py-1 px-2"
+              >
+                <Icon name="User" size={14} className="mr-1" />
+                Заполнить из профиля
+              </Button>
+            </div>
             <Textarea
               placeholder="Укажите дополнительную информацию: дату рождения, время, место, конкретные вопросы..."
               value={additionalInfo}
