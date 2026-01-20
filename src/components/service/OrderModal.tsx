@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
+import { Checkbox } from '@/components/ui/checkbox';
 import Icon from '@/components/ui/icon';
 
 interface OrderModalProps {
@@ -27,6 +28,13 @@ interface OrderModalProps {
 
 export default function OrderModal({ isOpen, onClose, service }: OrderModalProps) {
   const [additionalInfo, setAdditionalInfo] = useState('');
+  const [usePoints, setUsePoints] = useState(false);
+  
+  const userPoints = 350;
+  const basePrice = parseInt(service.price.replace(/[^0-9]/g, ''));
+  const maxPointsToUse = Math.floor(basePrice * 0.5);
+  const pointsToUse = usePoints ? Math.min(userPoints, maxPointsToUse) : 0;
+  const finalPrice = basePrice - pointsToUse;
 
   const handleOrder = (paymentMethod: 'card' | 'sbp') => {
     console.log('Оплата методом:', paymentMethod);
@@ -104,9 +112,52 @@ Email: ${user.email || ''}
 
           <Separator />
 
-          <div className="flex items-center justify-between">
-            <span className="text-lg font-semibold">Итого:</span>
-            <span className="text-2xl font-bold text-accent">{service.price}</span>
+          <div className="space-y-4">
+            <div className="flex items-start space-x-3 p-3 bg-accent/5 rounded-lg">
+              <Checkbox 
+                id="use-points"
+                checked={usePoints}
+                onCheckedChange={(checked) => setUsePoints(checked as boolean)}
+                className="mt-1"
+              />
+              <div className="flex-1">
+                <label 
+                  htmlFor="use-points" 
+                  className="text-sm font-medium cursor-pointer flex items-center"
+                >
+                  <Icon name="Coins" size={16} className="mr-2 text-accent" />
+                  Списать бонусные баллы
+                </label>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Доступно: {userPoints} баллов (макс. {maxPointsToUse} на этот заказ)
+                </p>
+                {usePoints && (
+                  <p className="text-sm text-accent font-medium mt-2">
+                    Будет списано: {pointsToUse} баллов
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              {usePoints && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Стоимость услуги:</span>
+                  <span className="text-foreground">{basePrice}₽</span>
+                </div>
+              )}
+              {usePoints && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Скидка баллами:</span>
+                  <span className="text-accent">-{pointsToUse}₽</span>
+                </div>
+              )}
+              <Separator />
+              <div className="flex items-center justify-between">
+                <span className="text-lg font-semibold">Итого:</span>
+                <span className="text-2xl font-bold text-accent">{finalPrice}₽</span>
+              </div>
+            </div>
           </div>
 
           <div className="space-y-3">

@@ -7,15 +7,18 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
 import NotificationCenter from '@/components/notifications/NotificationCenter';
+import ReferralModal from '@/components/ReferralModal';
 
 export default function Profile() {
   const navigate = useNavigate();
+  const [isReferralModalOpen, setIsReferralModalOpen] = useState(false);
   const [user] = useState({
     fullName: 'Анна Мария Волкова',
     avatar: '/img/bfba9552-d826-4988-b161-355884e82a28.jpg',
     birthDate: '15 марта 1990',
     birthTime: '14:30',
     birthPlace: 'Москва, Россия',
+    points: 350,
     subscription: {
       type: 'Премиум',
       validUntil: '15.12.2024',
@@ -138,6 +141,19 @@ export default function Profile() {
                 <Separator />
 
                 <div>
+                  <div className="flex items-center text-muted-foreground text-sm mb-2">
+                    <Icon name="Coins" size={16} className="mr-2" />
+                    Бонусные баллы
+                  </div>
+                  <div className="bg-accent/10 rounded-lg p-3 flex items-center justify-between">
+                    <span className="text-2xl font-bold text-accent">{user.points}</span>
+                    <span className="text-sm text-muted-foreground">баллов</span>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div>
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-muted-foreground text-sm">Подписка</span>
                     <Badge className="bg-accent/20 text-accent border-accent/30">
@@ -183,6 +199,15 @@ export default function Profile() {
                 >
                   <Icon name="MessageSquare" size={16} className="mr-2" />
                   Мои обращения
+                </Button>
+
+                <Button 
+                  variant="outline"
+                  className="w-full border-accent/30 text-accent hover:bg-accent/10"
+                  onClick={() => setIsReferralModalOpen(true)}
+                >
+                  <Icon name="UserPlus" size={16} className="mr-2" />
+                  Пригласить друга
                 </Button>
 
                 <Button 
@@ -285,7 +310,11 @@ export default function Profile() {
                     </p>
                   </div>
                 </div>
-                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                <Button 
+                  size="lg" 
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground"
+                  onClick={() => setIsReferralModalOpen(true)}
+                >
                   <Icon name="Gift" size={20} className="mr-2" />
                   Пригласить друга
                 </Button>
@@ -294,6 +323,11 @@ export default function Profile() {
           </Card>
         </div>
       </div>
+
+      <ReferralModal 
+        isOpen={isReferralModalOpen}
+        onClose={() => setIsReferralModalOpen(false)}
+      />
     </div>
   );
 }
