@@ -80,6 +80,7 @@ export default function Auth() {
     type: 'valid' | 'expired' | 'invalid' | null;
     referrerName?: string;
   }>({ type: null });
+  const [showReferralError, setShowReferralError] = useState(false);
 
   const zodiacSign = getZodiacSign(birthDate);
   const passwordStrength = calculatePasswordStrength(registerPassword);
@@ -513,6 +514,7 @@ export default function Auth() {
                       value={referralCode}
                       onChange={(e) => {
                         setReferralCode(e.target.value);
+                        setShowReferralError(false);
                         if (e.target.value) {
                           validateReferralCode(e.target.value);
                         } else {
@@ -555,7 +557,32 @@ export default function Auth() {
                   )}
                 </div>
 
-                <Button className="w-full bg-accent hover:bg-accent/90">
+                {showReferralError && referralCode && referralStatus.type !== 'valid' && (
+                  <div className="flex items-start space-x-2 p-3 bg-red-500/10 rounded-lg border border-red-500/20 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <Icon name="AlertTriangle" size={18} className="text-red-500 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-red-600 dark:text-red-400">
+                        Невозможно зарегистрироваться
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {referralStatus.type === 'expired' 
+                          ? 'Реферальный код просрочен. Удалите код или запросите новую ссылку.'
+                          : 'Реферальный код недействителен. Проверьте правильность или удалите его.'}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                <Button 
+                  className="w-full bg-accent hover:bg-accent/90"
+                  onClick={(e) => {
+                    if (referralCode && referralStatus.type !== 'valid' && referralStatus.type !== null) {
+                      e.preventDefault();
+                      setShowReferralError(true);
+                      setTimeout(() => setShowReferralError(false), 5000);
+                    }
+                  }}
+                >
                   <Icon name="UserPlus" size={18} className="mr-2" />
                   Зарегистрироваться
                 </Button>
