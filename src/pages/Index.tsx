@@ -331,6 +331,51 @@ export default function Index() {
           </Card>
         )}
 
+        <FadeIn delay={200}>
+          <div className="relative overflow-hidden rounded-2xl mb-16 border border-accent/20 bg-gradient-to-br from-accent/5 via-mystic-violet/5 to-accent/5 backdrop-blur-sm">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.15),transparent_50%)]" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-mystic-violet/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+            
+            <div className="relative z-10 px-8 py-12 md:py-16 flex flex-col items-center text-center">
+              <div className="mb-6 relative">
+                <div className="absolute inset-0 bg-accent/20 blur-xl rounded-full animate-pulse" />
+                <div className="relative bg-accent/10 p-4 rounded-full border border-accent/30">
+                  <Icon name="Gift" size={32} className="text-accent" />
+                </div>
+              </div>
+              
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-accent via-mystic-violet to-accent bg-clip-text text-transparent" style={{ fontFamily: 'Playfair Display, serif' }}>
+                Присоединяйтесь к нам!
+              </h2>
+              
+              <div className="max-w-2xl mb-8">
+                <div className="flex flex-wrap items-center justify-center gap-3 text-sm md:text-base">
+                  <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm px-4 py-2 rounded-full border border-accent/20">
+                    <Icon name="Users" size={18} className="text-accent flex-shrink-0" />
+                    <span>Бонусные баллы за приглашение друзей</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm px-4 py-2 rounded-full border border-mystic-violet/20">
+                    <Icon name="Percent" size={18} className="text-mystic-violet flex-shrink-0" />
+                    <span>Персональные скидки</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm px-4 py-2 rounded-full border border-accent/20">
+                    <Icon name="Star" size={18} className="text-accent flex-shrink-0" />
+                    <span>Ежедневный бесплатный гороскоп</span>
+                  </div>
+                </div>
+              </div>
+              
+              <Link to="/auth">
+                <Button size="lg" className="bg-accent hover:bg-accent/90 text-white shadow-lg shadow-accent/20 hover:shadow-accent/30 transition-all duration-300 hover:scale-105">
+                  <Icon name="UserPlus" size={20} className="mr-2" />
+                  Вход / Регистрация
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </FadeIn>
+
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
