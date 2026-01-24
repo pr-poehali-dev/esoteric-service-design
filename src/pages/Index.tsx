@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
@@ -10,6 +10,7 @@ import NotificationCenter from '@/components/notifications/NotificationCenter';
 import Footer from '@/components/Footer';
 import FadeIn from '@/components/ui/fade-in';
 import MobileNav from '@/components/MobileNav';
+import DailyRewardPopup from '@/components/DailyRewardPopup';
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,6 +18,25 @@ export default function Index() {
   const [userZodiac] = useState('Рыбы');
   const [favoriteServices, setFavoriteServices] = useState<number[]>([]);
   const [favoriteAuthors, setFavoriteAuthors] = useState<number[]>([]);
+  const [showDailyReward, setShowDailyReward] = useState(false);
+
+  useEffect(() => {
+    if (isUserLoggedIn) {
+      const lastClaim = localStorage.getItem('lastDailyRewardClaim');
+      const today = new Date().toDateString();
+      
+      if (lastClaim !== today) {
+        setTimeout(() => {
+          setShowDailyReward(true);
+        }, 1000);
+      }
+    }
+  }, [isUserLoggedIn]);
+
+  const handleCloseDailyReward = () => {
+    setShowDailyReward(false);
+    localStorage.setItem('lastDailyRewardClaim', new Date().toDateString());
+  };
 
   const toggleFavoriteService = (id: number) => {
     setFavoriteServices(prev => 
@@ -622,6 +642,8 @@ export default function Index() {
 
       <Footer />
       <MobileNav />
+      
+      {showDailyReward && <DailyRewardPopup onClose={handleCloseDailyReward} />}
     </div>
   );
 }
