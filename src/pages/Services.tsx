@@ -26,7 +26,9 @@ export default function Services() {
       purchases: 247,
       reviews: 89,
       subscription: 'Базовая',
-      price: '1500₽',
+      price: 1500,
+      originalPrice: 2000,
+      discount: 25,
       category: 'tarot'
     },
     {
@@ -42,7 +44,7 @@ export default function Services() {
       purchases: 412,
       reviews: 156,
       subscription: 'Премиум',
-      price: '3000₽',
+      price: 3000,
       category: 'astrology'
     },
     {
@@ -58,7 +60,9 @@ export default function Services() {
       purchases: 189,
       reviews: 67,
       subscription: 'Базовая',
-      price: '1200₽',
+      price: 1200,
+      originalPrice: 1500,
+      discount: 20,
       category: 'runes'
     },
     {
@@ -74,7 +78,7 @@ export default function Services() {
       purchases: 334,
       reviews: 122,
       subscription: 'Базовая',
-      price: '1800₽',
+      price: 1800,
       category: 'tarot'
     },
     {
@@ -90,7 +94,9 @@ export default function Services() {
       purchases: 278,
       reviews: 98,
       subscription: 'Стандарт',
-      price: '2200₽',
+      price: 2200,
+      originalPrice: 2800,
+      discount: 21,
       category: 'astrology'
     },
     {
@@ -106,7 +112,7 @@ export default function Services() {
       purchases: 156,
       reviews: 74,
       subscription: 'Премиум',
-      price: '2800₽',
+      price: 2800,
       category: 'runes'
     }
   ];
@@ -275,8 +281,22 @@ export default function Services() {
 
               <CardFooter className="pt-0 flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-muted-foreground">Цена</p>
-                  <p className="text-2xl font-bold text-accent">{service.price}</p>
+                  <p className="text-sm text-muted-foreground mb-1">Цена</p>
+                  {service.originalPrice ? (
+                    <div className="flex items-center gap-2">
+                      <div className="relative">
+                        <Badge className="bg-red-500/20 text-red-400 border-red-500/30 font-bold px-2 py-0.5 text-xs">
+                          -{service.discount}%
+                        </Badge>
+                      </div>
+                      <div className="flex flex-col items-start -space-y-0.5">
+                        <p className="text-2xl font-bold text-accent">{service.price}₽</p>
+                        <p className="text-sm text-muted-foreground line-through">{service.originalPrice}₽</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-2xl font-bold text-accent">{service.price}₽</p>
+                  )}
                 </div>
                 <Button className="bg-accent hover:bg-accent/90 text-accent-foreground">
                   <Icon name="ShoppingCart" size={16} className="mr-2" />

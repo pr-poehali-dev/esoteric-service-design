@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import OrderModal from '@/components/service/OrderModal';
 
@@ -16,7 +17,9 @@ interface ServiceInfoProps {
     sales: number;
     duration: string;
     deliveryTime: string;
-    price: string;
+    price: number;
+    originalPrice?: number;
+    discount?: number;
     author: {
       name: string;
       avatar: string;
@@ -100,8 +103,20 @@ export default function ServiceInfo({ service }: ServiceInfoProps) {
 
       <div className="flex items-center justify-between mb-6">
         <div>
-          <p className="text-sm text-muted-foreground mb-1">Цена</p>
-          <p className="text-4xl font-bold text-accent">{service.price}</p>
+          <p className="text-sm text-muted-foreground mb-2">Цена</p>
+          {service.originalPrice ? (
+            <div className="flex items-center gap-3">
+              <Badge className="bg-red-500/20 text-red-400 border-red-500/30 font-bold px-3 py-1 text-sm">
+                -{service.discount}%
+              </Badge>
+              <div className="flex flex-col items-start -space-y-1">
+                <p className="text-4xl font-bold text-accent">{service.price}₽</p>
+                <p className="text-lg text-muted-foreground line-through">{service.originalPrice}₽</p>
+              </div>
+            </div>
+          ) : (
+            <p className="text-4xl font-bold text-accent">{service.price}₽</p>
+          )}
         </div>
         <div className="flex space-x-3">
           <Button 
