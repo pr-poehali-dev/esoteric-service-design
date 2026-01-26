@@ -33,6 +33,7 @@ import Custom404 from "./pages/Custom404";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentError from "./pages/PaymentError";
 import SupportTickets from "./pages/SupportTickets";
+import DreamBook from "./pages/DreamBook";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +71,7 @@ const App = () => (
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/payment-error" element={<PaymentError />} />
           <Route path="/support-tickets" element={<SupportTickets />} />
+          <Route path="/dreambook" element={<DreamBook />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<Custom404 />} />
         </Routes>

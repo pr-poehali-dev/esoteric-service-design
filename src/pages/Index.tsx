@@ -299,6 +299,18 @@ export default function Index() {
               </Button>
             </div>
           </FadeIn>
+
+          <FadeIn delay={400}>
+            <div className="flex justify-center mt-8">
+              <Link to="/dreambook">
+                <Button size="lg" className="bg-gradient-to-r from-mystic-violet to-mystic-deep hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
+                  <Icon name="Moon" size={20} className="mr-2" />
+                  Толкование снов
+                  <Icon name="Sparkles" size={16} className="ml-2 animate-pulse" />
+                </Button>
+              </Link>
+            </div>
+          </FadeIn>
         </div>
       </div>
 
