@@ -477,7 +477,7 @@ export default function Index() {
           {popularServices.map((service, index) => (
             <FadeIn key={service.id} delay={index * 100}>
               <Card 
-              className="group overflow-hidden bg-card/50 border-border hover:border-accent/50 transition-all duration-300 hover:scale-[1.02] flex flex-col"
+              className="group overflow-hidden bg-card/50 border-border hover:border-accent/50 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full"
             >
               <div className="relative h-48 overflow-hidden">
                 <img 
