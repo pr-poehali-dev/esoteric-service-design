@@ -20,6 +20,7 @@ interface ServiceInfoProps {
     price: number;
     originalPrice?: number;
     discount?: number;
+    discountEndsIn?: number;
     author: {
       name: string;
       avatar: string;
@@ -105,14 +106,31 @@ export default function ServiceInfo({ service }: ServiceInfoProps) {
         <div>
           <p className="text-sm text-muted-foreground mb-2">Цена</p>
           {service.originalPrice ? (
-            <div className="flex items-center gap-3">
-              <Badge className="bg-red-500/20 text-red-400 border-red-500/30 font-bold px-3 py-1 text-sm">
-                -{service.discount}%
-              </Badge>
-              <div className="flex flex-col items-start -space-y-1">
-                <p className="text-4xl font-bold text-accent">{service.price}₽</p>
-                <p className="text-lg text-muted-foreground line-through">{service.originalPrice}₽</p>
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <Badge 
+                  className={`bg-gradient-to-r from-amber-500/30 to-accent/30 text-accent border-accent/40 font-bold px-4 py-1.5 text-base shadow-lg ${
+                    service.discountEndsIn && service.discountEndsIn <= 3 
+                      ? 'animate-[pulse-discount_1.5s_ease-in-out_infinite]' 
+                      : ''
+                  }`}
+                >
+                  <Icon name="Zap" size={18} className="mr-1" />
+                  -{service.discount}%
+                </Badge>
+                <div className="flex flex-col items-start -space-y-1">
+                  <p className="text-4xl font-bold text-accent">{service.price}₽</p>
+                  <p className="text-lg text-muted-foreground line-through">{service.originalPrice}₽</p>
+                </div>
               </div>
+              {service.discountEndsIn && service.discountEndsIn <= 3 && (
+                <div className="flex items-center gap-2 text-sm">
+                  <Icon name="Clock" size={16} className="text-accent" />
+                  <span className="text-accent font-medium">
+                    Скидка истекает через {service.discountEndsIn} {service.discountEndsIn === 1 ? 'день' : 'дня'}!
+                  </span>
+                </div>
+              )}
             </div>
           ) : (
             <p className="text-4xl font-bold text-accent">{service.price}₽</p>

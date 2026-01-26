@@ -36,6 +36,7 @@ export default function ServiceDetail() {
     price: 3000,
     originalPrice: 4500,
     discount: 33,
+    discountEndsIn: 1,
     duration: '2-3 часа',
     deliveryTime: 'В течение 24 часов',
     subscription: 'Премиум',

@@ -29,6 +29,7 @@ export default function Services() {
       price: 1500,
       originalPrice: 2000,
       discount: 25,
+      discountEndsIn: 2,
       category: 'tarot'
     },
     {
@@ -63,6 +64,7 @@ export default function Services() {
       price: 1200,
       originalPrice: 1500,
       discount: 20,
+      discountEndsIn: 5,
       category: 'runes'
     },
     {
@@ -97,6 +99,7 @@ export default function Services() {
       price: 2200,
       originalPrice: 2800,
       discount: 21,
+      discountEndsIn: 10,
       category: 'astrology'
     },
     {
@@ -284,11 +287,16 @@ export default function Services() {
                   <p className="text-sm text-muted-foreground mb-1">Цена</p>
                   {service.originalPrice ? (
                     <div className="flex items-center gap-2">
-                      <div className="relative">
-                        <Badge className="bg-red-500/20 text-red-400 border-red-500/30 font-bold px-2 py-0.5 text-xs">
-                          -{service.discount}%
-                        </Badge>
-                      </div>
+                      <Badge 
+                        className={`bg-gradient-to-r from-amber-500/30 to-accent/30 text-accent border-accent/40 font-bold px-3 py-1 text-sm shadow-lg ${
+                          service.discountEndsIn && service.discountEndsIn <= 3 
+                            ? 'animate-[pulse-discount_1.5s_ease-in-out_infinite]' 
+                            : ''
+                        }`}
+                      >
+                        <Icon name="Zap" size={14} className="mr-1" />
+                        -{service.discount}%
+                      </Badge>
                       <div className="flex flex-col items-start -space-y-0.5">
                         <p className="text-2xl font-bold text-accent">{service.price}₽</p>
                         <p className="text-sm text-muted-foreground line-through">{service.originalPrice}₽</p>

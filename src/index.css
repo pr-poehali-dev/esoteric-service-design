@@ -145,6 +145,18 @@
     z-index: 1;
   }
 
+  @keyframes pulse-discount {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.85;
+      transform: scale(1.05);
+    }
+  }
+
   @keyframes gradient-flow {
     0%,
     100% {
