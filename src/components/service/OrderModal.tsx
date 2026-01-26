@@ -18,7 +18,9 @@ interface OrderModalProps {
   onClose: () => void;
   service: {
     name: string;
-    price: string;
+    price: number;
+    originalPrice?: number;
+    discount?: number;
     author: {
       name: string;
       avatar: string;
@@ -31,7 +33,7 @@ export default function OrderModal({ isOpen, onClose, service }: OrderModalProps
   const [usePoints, setUsePoints] = useState(false);
   
   const userPoints = 350;
-  const basePrice = parseInt(service.price.replace(/[^0-9]/g, ''));
+  const basePrice = service.price;
   const maxPointsToUse = Math.floor(basePrice * 0.5);
   const pointsToUse = usePoints ? Math.min(userPoints, maxPointsToUse) : 0;
   const finalPrice = basePrice - pointsToUse;
