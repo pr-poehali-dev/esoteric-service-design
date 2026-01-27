@@ -480,24 +480,24 @@ export default function Index() {
           </Link>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-16">
           {popularServices.map((service, index) => (
             <FadeIn key={service.id} delay={index * 100}>
               <Card 
               className="group overflow-hidden bg-card/50 border-border hover:border-accent/50 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full"
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-32 md:h-48 overflow-hidden">
                 <img 
                   src={service.image} 
                   alt={service.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-                <div className="absolute top-3 right-3 flex gap-2">
+                <div className="absolute top-2 md:top-3 right-2 md:right-3 flex gap-1 md:gap-2">
                   <Button
                     size="icon"
                     variant="ghost"
-                    className={`w-9 h-9 backdrop-blur-sm transition-colors ${
+                    className={`w-7 h-7 md:w-9 md:h-9 backdrop-blur-sm transition-colors ${
                       favoriteServices.includes(service.id)
                         ? 'bg-red-500/90 hover:bg-red-600/90 text-white'
                         : 'bg-white/90 hover:bg-white text-gray-600 hover:text-red-500'
@@ -509,49 +509,49 @@ export default function Index() {
                   >
                     <Icon 
                       name="Heart" 
-                      size={18} 
-                      className={favoriteServices.includes(service.id) ? 'fill-current' : ''}
+                      size={14} 
+                      className={`md:w-[18px] md:h-[18px] ${favoriteServices.includes(service.id) ? 'fill-current' : ''}`}
                     />
                   </Button>
-                  <Badge className={`${getSubscriptionColor(service.subscription)}`}>
+                  <Badge className={`${getSubscriptionColor(service.subscription)} text-[10px] md:text-xs px-1.5 md:px-2.5 py-0.5 md:py-1`}>
                     {service.subscription}
                   </Badge>
                 </div>
               </div>
 
-              <CardHeader className="pb-3">
-                <h3 className="text-lg font-bold mb-2 line-clamp-2" style={{ fontFamily: 'Playfair Display, serif' }}>
+              <CardHeader className="pb-2 md:pb-3 px-3 md:px-6 pt-3 md:pt-6">
+                <h3 className="text-sm md:text-lg font-bold mb-1 md:mb-2 line-clamp-2" style={{ fontFamily: 'Playfair Display, serif' }}>
                   {service.name}
                 </h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">
+                <p className="text-xs md:text-sm text-muted-foreground line-clamp-2 hidden md:block">
                   {service.description}
                 </p>
               </CardHeader>
 
-              <CardContent className="pb-3 flex-1">
-                <div className="flex items-center space-x-2 mb-3">
-                  <Avatar className="w-8 h-8 border border-accent/30">
+              <CardContent className="pb-2 md:pb-3 flex-1 px-3 md:px-6">
+                <div className="flex items-center space-x-1.5 md:space-x-2 mb-2 md:mb-3">
+                  <Avatar className="w-6 h-6 md:w-8 md:h-8 border border-accent/30">
                     <AvatarImage src={service.author.avatar} alt={service.author.name} />
-                    <AvatarFallback className="bg-accent/10 text-accent text-xs">
+                    <AvatarFallback className="bg-accent/10 text-accent text-[10px] md:text-xs">
                       {service.author.name.split(' ').map(n => n[0]).join('')}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-foreground truncate">{service.author.name}</p>
+                    <p className="text-[10px] md:text-xs font-medium text-foreground truncate">{service.author.name}</p>
                     <div className="flex items-center">
-                      <Icon name="Star" className="text-accent fill-accent" size={12} />
-                      <span className="text-xs font-bold text-accent ml-1">{service.rating}</span>
-                      <span className="text-xs text-muted-foreground ml-2">({service.reviews})</span>
+                      <Icon name="Star" className="text-accent fill-accent" size={10} />
+                      <span className="text-[10px] md:text-xs font-bold text-accent ml-0.5 md:ml-1">{service.rating}</span>
+                      <span className="text-[10px] md:text-xs text-muted-foreground ml-1 md:ml-2">({service.reviews})</span>
                     </div>
                   </div>
                 </div>
               </CardContent>
 
-              <CardFooter className="pt-0 flex items-center justify-between">
+              <CardFooter className="pt-0 flex items-center justify-between px-3 md:px-6 pb-3 md:pb-6">
                 <div>
-                  <p className="text-xl font-bold text-accent">{service.price}</p>
+                  <p className="text-base md:text-xl font-bold text-accent">{service.price}</p>
                 </div>
-                <Button size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                <Button size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground h-7 md:h-9 text-xs md:text-sm px-2 md:px-4">
                   Заказать
                 </Button>
               </CardFooter>
