@@ -301,21 +301,34 @@ export default function Index() {
           </FadeIn>
 
           <FadeIn delay={400}>
-            <div className="flex flex-wrap justify-center gap-4 mt-8">
-              <Link to="/horoscope">
-                <Button size="lg" className="bg-gradient-to-r from-accent to-mystic-violet hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
-                  <Icon name="Stars" size={20} className="mr-2" />
-                  Гороскоп
-                  <Icon name="Sparkles" size={16} className="ml-2 animate-pulse" />
-                </Button>
-              </Link>
-              <Link to="/dreambook">
-                <Button size="lg" className="bg-gradient-to-r from-mystic-violet to-mystic-deep hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
-                  <Icon name="Moon" size={20} className="mr-2" />
-                  Толкование снов
-                  <Icon name="Sparkles" size={16} className="ml-2 animate-pulse" />
-                </Button>
-              </Link>
+            <div className="flex justify-center mt-8">
+              <Card className="bg-gradient-to-br from-accent/20 via-mystic-purple/20 to-mystic-violet/20 border-accent/40 backdrop-blur-sm">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Badge className="bg-gradient-to-r from-accent to-mystic-violet text-white border-0 px-3 py-1">
+                      <Icon name="Gift" size={14} className="mr-1.5" />
+                      Бесплатно
+                    </Badge>
+                    <p className="text-sm text-muted-foreground">Попробуйте наши инструменты</p>
+                  </div>
+                  <div className="flex flex-wrap justify-center gap-4">
+                    <Link to="/horoscope">
+                      <Button size="lg" className="bg-gradient-to-r from-accent to-mystic-violet hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
+                        <Icon name="Stars" size={20} className="mr-2" />
+                        Гороскоп
+                        <Icon name="Sparkles" size={16} className="ml-2 animate-pulse" />
+                      </Button>
+                    </Link>
+                    <Link to="/dreambook">
+                      <Button size="lg" className="bg-gradient-to-r from-mystic-violet to-mystic-deep hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
+                        <Icon name="Moon" size={20} className="mr-2" />
+                        Толкование снов
+                        <Icon name="Sparkles" size={16} className="ml-2 animate-pulse" />
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </FadeIn>
         </div>
