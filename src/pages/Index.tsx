@@ -215,6 +215,30 @@ export default function Index() {
     }
   ];
 
+  const activePromotions = [
+    {
+      id: 1,
+      title: 'Новогодняя магия',
+      endDate: '31 декабря',
+      discount: 30,
+      services: [
+        { id: 1, name: 'Натальная карта', image: '/img/ce1b75d6-d236-4e34-a342-4391f5c746f0.jpg' },
+        { id: 2, name: 'Таро на любовь', image: '/img/bfba9552-d826-4988-b161-355884e82a28.jpg' },
+        { id: 3, name: 'Руны', image: '/img/ce36f202-a4c1-46a2-9733-f447707ec162.jpg' },
+        { id: 4, name: 'Нумерология', image: '/img/ce1b75d6-d236-4e34-a342-4391f5c746f0.jpg' },
+        { id: 5, name: 'Хиромантия', image: '/img/bfba9552-d826-4988-b161-355884e82a28.jpg' },
+        { id: 6, name: 'Медитация', image: '/img/ce36f202-a4c1-46a2-9733-f447707ec162.jpg' }
+      ],
+      authors: [
+        { id: 1, name: 'Мария Звездная', avatar: '/img/ce1b75d6-d236-4e34-a342-4391f5c746f0.jpg' },
+        { id: 2, name: 'Анна Волкова', avatar: '/img/bfba9552-d826-4988-b161-355884e82a28.jpg' },
+        { id: 3, name: 'Виктор Рунов', avatar: '/img/ce36f202-a4c1-46a2-9733-f447707ec162.jpg' },
+        { id: 4, name: 'Елена Лунная', avatar: '/img/ce1b75d6-d236-4e34-a342-4391f5c746f0.jpg' },
+        { id: 5, name: 'Дмитрий Светлов', avatar: '/img/bfba9552-d826-4988-b161-355884e82a28.jpg' }
+      ]
+    }
+  ];
+
   const getSubscriptionColor = (subscription: string) => {
     switch (subscription) {
       case 'Базовая':
@@ -427,6 +451,100 @@ export default function Index() {
             </div>
           </div>
         </FadeIn>
+
+        <div className="mb-16">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
+                🔥 Акции
+              </h2>
+              <p className="text-muted-foreground">Специальные предложения для вас</p>
+            </div>
+          </div>
+
+          {activePromotions.map((promo, index) => (
+            <FadeIn key={promo.id} delay={index * 100}>
+              <Card className="mb-6 overflow-hidden bg-gradient-to-br from-accent/10 via-card/50 to-mystic-violet/10 border-accent/30">
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex flex-col lg:flex-row gap-6">
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between gap-4 mb-4">
+                        <div>
+                          <h3 className="text-2xl md:text-3xl font-bold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
+                            {promo.title}
+                          </h3>
+                          <div className="flex flex-wrap items-center gap-3 text-sm">
+                            <Badge className="bg-red-500/90 text-white border-0">
+                              <Icon name="Clock" size={14} className="mr-1" />
+                              до {promo.endDate}
+                            </Badge>
+                            <Badge className="bg-accent text-white border-0 text-lg px-3 py-1">
+                              -{promo.discount}%
+                            </Badge>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div>
+                          <div className="flex items-center gap-2 mb-3">
+                            <Icon name="ShoppingBag" size={18} className="text-accent" />
+                            <h4 className="font-semibold">Услуги в акции</h4>
+                          </div>
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {promo.services.slice(0, 4).map((service) => (
+                              <Avatar key={service.id} className="w-10 h-10 border-2 border-accent/30">
+                                <AvatarImage src={service.image} alt={service.name} />
+                                <AvatarFallback className="bg-accent/10 text-accent text-xs">
+                                  {service.name.charAt(0)}
+                                </AvatarFallback>
+                              </Avatar>
+                            ))}
+                            {promo.services.length > 4 && (
+                              <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-xs font-bold text-accent">
+                                +{promo.services.length - 4}
+                              </div>
+                            )}
+                          </div>
+                          <Button size="sm" variant="outline" className="w-full border-accent/30 hover:bg-accent/10">
+                            Перейти к услугам
+                            <Icon name="ArrowRight" size={14} className="ml-2" />
+                          </Button>
+                        </div>
+
+                        <div>
+                          <div className="flex items-center gap-2 mb-3">
+                            <Icon name="Users" size={18} className="text-mystic-violet" />
+                            <h4 className="font-semibold">Авторы в акции</h4>
+                          </div>
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {promo.authors.slice(0, 4).map((author) => (
+                              <Avatar key={author.id} className="w-10 h-10 border-2 border-mystic-violet/30">
+                                <AvatarImage src={author.avatar} alt={author.name} />
+                                <AvatarFallback className="bg-mystic-violet/10 text-mystic-violet text-xs">
+                                  {author.name.split(' ').map(n => n[0]).join('')}
+                                </AvatarFallback>
+                              </Avatar>
+                            ))}
+                            {promo.authors.length > 4 && (
+                              <div className="w-10 h-10 rounded-full bg-mystic-violet/20 flex items-center justify-center text-xs font-bold text-mystic-violet">
+                                +{promo.authors.length - 4}
+                              </div>
+                            )}
+                          </div>
+                          <Button size="sm" variant="outline" className="w-full border-mystic-violet/30 hover:bg-mystic-violet/10">
+                            Перейти к авторам
+                            <Icon name="ArrowRight" size={14} className="ml-2" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </FadeIn>
+          ))}
+        </div>
 
         <div className="flex items-center justify-between mb-8">
           <div>
