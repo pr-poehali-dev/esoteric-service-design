@@ -11,6 +11,7 @@ export default function Services() {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [showPromotions, setShowPromotions] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isFiltersExpanded, setIsFiltersExpanded] = useState(false);
   const itemsPerPage = 6;
 
   const services = [
@@ -218,69 +219,121 @@ export default function Services() {
 
       <div className="container mx-auto px-4 py-12">
         <Card className="mb-8 bg-card/50 border-border">
-          <CardHeader>
-            <h2 className="text-xl font-bold flex items-center gap-2">
-              <Icon name="Filter" size={20} className="text-accent" />
-              Фильтры
-            </h2>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div>
-              <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Категория</h3>
-              <div className="flex flex-wrap gap-2">
-                {categories.map((cat) => (
+          <CardHeader 
+            className="cursor-pointer hover:bg-accent/5 transition-colors"
+            onClick={() => setIsFiltersExpanded(!isFiltersExpanded)}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Icon name="Filter" size={20} className="text-accent" />
+                <div>
+                  <h2 className="text-lg font-bold">Фильтры</h2>
+                  {!isFiltersExpanded && (categoryFilter !== 'all' || showPromotions) && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {categoryFilter !== 'all' && (
+                        <Badge variant="secondary" className="bg-accent/20 text-accent border-accent/30">
+                          <Icon 
+                            name={categories.find(c => c.value === categoryFilter)?.icon as any} 
+                            size={12} 
+                            className="mr-1" 
+                          />
+                          {categories.find(c => c.value === categoryFilter)?.label}
+                        </Badge>
+                      )}
+                      {showPromotions && (
+                        <Badge variant="secondary" className="bg-red-500/20 text-red-500 border-red-500/30">
+                          <Icon name="Tag" size={12} className="mr-1" />
+                          Акции
+                        </Badge>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                {!isFiltersExpanded && (categoryFilter !== 'all' || showPromotions) && (
                   <Button
-                    key={cat.value}
-                    variant={categoryFilter === cat.value ? 'default' : 'outline'}
+                    variant="ghost"
                     size="sm"
-                    onClick={() => handleCategoryChange(cat.value)}
-                    className={categoryFilter === cat.value ? 'bg-accent hover:bg-accent/90' : ''}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCategoryFilter('all');
+                      setShowPromotions(false);
+                      setCurrentPage(1);
+                    }}
+                    className="h-8"
                   >
-                    <Icon name={cat.icon as any} size={16} className="mr-2" />
-                    {cat.label}
+                    <Icon name="X" size={14} />
                   </Button>
-                ))}
+                )}
+                <Icon 
+                  name={isFiltersExpanded ? "ChevronUp" : "ChevronDown"} 
+                  size={20} 
+                  className="text-muted-foreground"
+                />
               </div>
             </div>
+          </CardHeader>
+          
+          {isFiltersExpanded && (
+            <CardContent className="space-y-6 pt-6">
+              <div>
+                <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Категория</h3>
+                <div className="flex flex-wrap gap-2">
+                  {categories.map((cat) => (
+                    <Button
+                      key={cat.value}
+                      variant={categoryFilter === cat.value ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => handleCategoryChange(cat.value)}
+                      className={categoryFilter === cat.value ? 'bg-accent hover:bg-accent/90' : ''}
+                    >
+                      <Icon name={cat.icon as any} size={16} className="mr-2" />
+                      {cat.label}
+                    </Button>
+                  ))}
+                </div>
+              </div>
 
-            <div className="border-t border-border pt-6">
-              <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Специальные предложения</h3>
-              <Button
-                variant={showPromotions ? 'default' : 'outline'}
-                size="sm"
-                onClick={handlePromotionToggle}
-                className={showPromotions ? 'bg-red-500 hover:bg-red-600' : ''}
-              >
-                <Icon name="Tag" size={16} className="mr-2" />
-                Только акции
-                {showPromotions && (
-                  <Badge className="ml-2 bg-white text-red-500 hover:bg-white">
-                    {services.filter(s => s.hasPromotion).length}
-                  </Badge>
-                )}
-              </Button>
-            </div>
-
-            {(categoryFilter !== 'all' || showPromotions) && (
-              <div className="flex items-center justify-between pt-4 border-t border-border">
-                <p className="text-sm text-muted-foreground">
-                  Найдено услуг: <span className="font-bold text-foreground">{filteredServices.length}</span>
-                </p>
+              <div className="border-t border-border pt-6">
+                <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Специальные предложения</h3>
                 <Button
-                  variant="ghost"
+                  variant={showPromotions ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => {
-                    setCategoryFilter('all');
-                    setShowPromotions(false);
-                    setCurrentPage(1);
-                  }}
+                  onClick={handlePromotionToggle}
+                  className={showPromotions ? 'bg-red-500 hover:bg-red-600' : ''}
                 >
-                  <Icon name="X" size={16} className="mr-1" />
-                  Сбросить
+                  <Icon name="Tag" size={16} className="mr-2" />
+                  Только акции
+                  {showPromotions && (
+                    <Badge className="ml-2 bg-white text-red-500 hover:bg-white">
+                      {services.filter(s => s.hasPromotion).length}
+                    </Badge>
+                  )}
                 </Button>
               </div>
-            )}
-          </CardContent>
+
+              {(categoryFilter !== 'all' || showPromotions) && (
+                <div className="flex items-center justify-between pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground">
+                    Найдено услуг: <span className="font-bold text-foreground">{filteredServices.length}</span>
+                  </p>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setCategoryFilter('all');
+                      setShowPromotions(false);
+                      setCurrentPage(1);
+                    }}
+                  >
+                    <Icon name="X" size={16} className="mr-1" />
+                    Сбросить все
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          )}
         </Card>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
