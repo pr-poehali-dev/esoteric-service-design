@@ -3,12 +3,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import Icon from '@/components/ui/icon';
 import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 export default function Services() {
-  const [filter, setFilter] = useState('all');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [showPromotions, setShowPromotions] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -30,7 +31,8 @@ export default function Services() {
       originalPrice: 2000,
       discount: 25,
       discountEndsIn: 2,
-      category: 'tarot'
+      category: 'tarot',
+      hasPromotion: true
     },
     {
       id: 2,
@@ -46,7 +48,8 @@ export default function Services() {
       reviews: 156,
       subscription: 'Премиум',
       price: 3000,
-      category: 'astrology'
+      category: 'astrology',
+      hasPromotion: false
     },
     {
       id: 3,
@@ -65,7 +68,8 @@ export default function Services() {
       originalPrice: 1500,
       discount: 20,
       discountEndsIn: 5,
-      category: 'runes'
+      category: 'runes',
+      hasPromotion: true
     },
     {
       id: 4,
@@ -81,7 +85,8 @@ export default function Services() {
       reviews: 122,
       subscription: 'Базовая',
       price: 1800,
-      category: 'tarot'
+      category: 'tarot',
+      hasPromotion: false
     },
     {
       id: 5,
@@ -100,7 +105,8 @@ export default function Services() {
       originalPrice: 2800,
       discount: 21,
       discountEndsIn: 10,
-      category: 'astrology'
+      category: 'astrology',
+      hasPromotion: true
     },
     {
       id: 6,
@@ -116,23 +122,38 @@ export default function Services() {
       reviews: 74,
       subscription: 'Премиум',
       price: 2800,
-      category: 'runes'
+      category: 'runes',
+      hasPromotion: false
     }
   ];
 
-  const filteredServices = filter === 'all' 
-    ? services 
-    : services.filter(s => s.category === filter);
+  const filteredServices = services.filter(service => {
+    const matchesCategory = categoryFilter === 'all' || service.category === categoryFilter;
+    const matchesPromotion = !showPromotions || service.hasPromotion;
+    return matchesCategory && matchesPromotion;
+  });
 
   const totalPages = Math.ceil(filteredServices.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentServices = filteredServices.slice(startIndex, endIndex);
 
-  const handleFilterChange = (newFilter: string) => {
-    setFilter(newFilter);
+  const handleCategoryChange = (newCategory: string) => {
+    setCategoryFilter(newCategory);
     setCurrentPage(1);
   };
+
+  const handlePromotionToggle = () => {
+    setShowPromotions(!showPromotions);
+    setCurrentPage(1);
+  };
+
+  const categories = [
+    { value: 'all', label: 'Все категории', icon: 'Layers' },
+    { value: 'tarot', label: 'Таро', icon: 'Sparkles' },
+    { value: 'astrology', label: 'Астрология', icon: 'Moon' },
+    { value: 'runes', label: 'Руны', icon: 'Flame' },
+  ];
 
   const goToPage = (page: number) => {
     setCurrentPage(page);
@@ -196,22 +217,71 @@ export default function Services() {
       </div>
 
       <div className="container mx-auto px-4 py-12">
-        <Tabs defaultValue="all" className="mb-8">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-4 bg-card/50">
-            <TabsTrigger value="all" onClick={() => handleFilterChange('all')}>
-              Все
-            </TabsTrigger>
-            <TabsTrigger value="tarot" onClick={() => handleFilterChange('tarot')}>
-              Таро
-            </TabsTrigger>
-            <TabsTrigger value="astrology" onClick={() => handleFilterChange('astrology')}>
-              Астрология
-            </TabsTrigger>
-            <TabsTrigger value="runes" onClick={() => handleFilterChange('runes')}>
-              Руны
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <Card className="mb-8 bg-card/50 border-border">
+          <CardHeader>
+            <h2 className="text-xl font-bold flex items-center gap-2">
+              <Icon name="Filter" size={20} className="text-accent" />
+              Фильтры
+            </h2>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Категория</h3>
+              <div className="flex flex-wrap gap-2">
+                {categories.map((cat) => (
+                  <Button
+                    key={cat.value}
+                    variant={categoryFilter === cat.value ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => handleCategoryChange(cat.value)}
+                    className={categoryFilter === cat.value ? 'bg-accent hover:bg-accent/90' : ''}
+                  >
+                    <Icon name={cat.icon as any} size={16} className="mr-2" />
+                    {cat.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="border-t border-border pt-6">
+              <h3 className="text-sm font-semibold mb-3 text-muted-foreground">Специальные предложения</h3>
+              <Button
+                variant={showPromotions ? 'default' : 'outline'}
+                size="sm"
+                onClick={handlePromotionToggle}
+                className={showPromotions ? 'bg-red-500 hover:bg-red-600' : ''}
+              >
+                <Icon name="Tag" size={16} className="mr-2" />
+                Только акции
+                {showPromotions && (
+                  <Badge className="ml-2 bg-white text-red-500 hover:bg-white">
+                    {services.filter(s => s.hasPromotion).length}
+                  </Badge>
+                )}
+              </Button>
+            </div>
+
+            {(categoryFilter !== 'all' || showPromotions) && (
+              <div className="flex items-center justify-between pt-4 border-t border-border">
+                <p className="text-sm text-muted-foreground">
+                  Найдено услуг: <span className="font-bold text-foreground">{filteredServices.length}</span>
+                </p>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setCategoryFilter('all');
+                    setShowPromotions(false);
+                    setCurrentPage(1);
+                  }}
+                >
+                  <Icon name="X" size={16} className="mr-1" />
+                  Сбросить
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {currentServices.map((service) => (
