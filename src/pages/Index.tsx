@@ -374,7 +374,7 @@ export default function Index() {
                     </Link>
                     <Link to="/angel-numbers">
                       <Button size="lg" className="bg-gradient-to-r from-mystic-purple to-mystic-deep hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
-                        <Icon name="Clock" size={20} className="mr-2" />
+                        <Icon name="Infinity" size={20} className="mr-2" />
                         Ангельская нумерология
                         <Icon name="Sparkles" size={16} className="ml-2 animate-pulse" />
                       </Button>

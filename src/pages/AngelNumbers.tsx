@@ -191,7 +191,9 @@ export default function AngelNumbers() {
             <div className="flex items-center justify-center mb-4">
               <div className="relative">
                 <div className="absolute inset-0 bg-accent/20 blur-xl rounded-full animate-pulse" />
-                <div className="relative text-6xl">👼</div>
+                <div className="relative text-accent">
+                  <Icon name="Infinity" size={64} strokeWidth={1.5} />
+                </div>
               </div>
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-accent via-mystic-violet to-mystic-deep bg-clip-text text-transparent" 
