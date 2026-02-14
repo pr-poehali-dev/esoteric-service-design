@@ -357,23 +357,23 @@ export default function Index() {
                     </Badge>
                     <p className="text-sm text-muted-foreground">Попробуйте наши инструменты</p>
                   </div>
-                  <div className="flex flex-wrap justify-center gap-0 rounded-xl overflow-hidden">
+                  <div className="flex flex-wrap justify-center gap-2">
                     <Link to="/horoscope">
-                      <Button size="lg" className="rounded-none rounded-l-xl bg-accent hover:bg-accent/90 text-white shadow-lg hover:shadow-xl transition-all">
+                      <Button size="lg" className="bg-gradient-to-r from-accent to-mystic-violet hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
                         <Icon name="Stars" size={20} className="mr-2" />
                         Гороскоп
                         <Icon name="Sparkles" size={16} className="ml-2 animate-pulse" />
                       </Button>
                     </Link>
                     <Link to="/dreambook">
-                      <Button size="lg" className="rounded-none bg-mystic-violet hover:bg-mystic-violet/90 text-white shadow-lg hover:shadow-xl transition-all">
+                      <Button size="lg" className="bg-gradient-to-r from-mystic-violet to-mystic-purple hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
                         <Icon name="Moon" size={20} className="mr-2" />
                         Толкование снов
                         <Icon name="Sparkles" size={16} className="ml-2 animate-pulse" />
                       </Button>
                     </Link>
                     <Link to="/angel-numbers">
-                      <Button size="lg" className="rounded-none rounded-r-xl bg-mystic-deep hover:bg-mystic-deep/90 text-white shadow-lg hover:shadow-xl transition-all">
+                      <Button size="lg" className="bg-gradient-to-r from-mystic-purple to-mystic-deep hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
                         <Icon name="Clock" size={20} className="mr-2" />
                         Ангельская нумерология
                         <Icon name="Sparkles" size={16} className="ml-2 animate-pulse" />
