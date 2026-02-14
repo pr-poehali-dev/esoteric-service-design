@@ -359,21 +359,21 @@ export default function Index() {
                   </div>
                   <div className="flex flex-wrap justify-center gap-4">
                     <Link to="/horoscope">
-                      <Button size="lg" className="bg-gradient-to-r from-accent to-mystic-violet hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
+                      <Button size="lg" className="bg-gradient-to-r from-mystic-violet/60 to-mystic-violet/80 hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
                         <Icon name="Stars" size={20} className="mr-2" />
                         Гороскоп
                         <Icon name="Sparkles" size={16} className="ml-2 animate-pulse" />
                       </Button>
                     </Link>
                     <Link to="/dreambook">
-                      <Button size="lg" className="bg-gradient-to-r from-mystic-violet to-mystic-deep hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
+                      <Button size="lg" className="bg-gradient-to-r from-mystic-violet/80 to-mystic-purple hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
                         <Icon name="Moon" size={20} className="mr-2" />
                         Толкование снов
                         <Icon name="Sparkles" size={16} className="ml-2 animate-pulse" />
                       </Button>
                     </Link>
                     <Link to="/angel-numbers">
-                      <Button size="lg" className="bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
+                      <Button size="lg" className="bg-gradient-to-r from-mystic-purple to-mystic-deep hover:opacity-90 text-white shadow-lg hover:shadow-xl transition-all">
                         <Icon name="Clock" size={20} className="mr-2" />
                         Ангельская нумерология
                         <Icon name="Sparkles" size={16} className="ml-2 animate-pulse" />
