@@ -590,14 +590,16 @@ export default function Index() {
                       )}
 
                       {!isExpanded && (
-                        <div className="flex items-center gap-3 mt-3 text-sm text-muted-foreground">
-                          <div className="flex items-center gap-1">
-                            <Icon name="ShoppingBag" size={14} className="text-accent" />
-                            <span>{promo.services.length} услуг</span>
+                        <div className="flex items-center gap-3 mt-3">
+                          <div className="flex items-center gap-1.5 bg-accent/10 px-2.5 py-1 rounded-full">
+                            <Icon name="ShoppingBag" size={13} className="text-accent" />
+                            <span className="text-sm font-semibold text-accent">{promo.services.length}</span>
+                            <span className="text-xs text-muted-foreground">услуг</span>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Icon name="Users" size={14} className="text-mystic-violet" />
-                            <span>{promo.authors.length} авторов</span>
+                          <div className="flex items-center gap-1.5 bg-mystic-violet/10 px-2.5 py-1 rounded-full">
+                            <Icon name="Users" size={13} className="text-mystic-violet" />
+                            <span className="text-sm font-semibold text-mystic-violet">{promo.authors.length}</span>
+                            <span className="text-xs text-muted-foreground">авторов</span>
                           </div>
                         </div>
                       )}
