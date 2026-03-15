@@ -509,11 +509,11 @@ export default function Index() {
                             {promo.title}
                           </h3>
                           <div className="flex flex-wrap items-center gap-2 text-sm">
-                            <Badge className="bg-red-500/90 text-white border-0 text-xs">
+                            <Badge className="bg-red-500/90 text-white border-0 text-sm px-2.5 py-0.5 drop-shadow-sm" style={{textShadow: '0 1px 3px rgba(0,0,0,0.3)'}}>
                               <Icon name="Clock" size={12} className="mr-1" />
                               до {promo.endDate}
                             </Badge>
-                            <Badge className="bg-accent text-white border-0 text-base px-2.5 py-0.5">
+                            <Badge className="bg-accent text-white border-0 text-sm px-2.5 py-0.5 drop-shadow-sm" style={{textShadow: '0 1px 3px rgba(0,0,0,0.3)'}}>
                               -{promo.discount}%
                             </Badge>
                           </div>
